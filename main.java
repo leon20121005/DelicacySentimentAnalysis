@@ -5,9 +5,12 @@ public class main
     public static void main(String[] args) throws Exception
     {
         IPeenCrawler crawler = new IPeenCrawler();
-
         // crawler.Search("炸雞");
         // crawler.SaveResult();
+
+        PIXNETCrawler pixnet = new PIXNETCrawler();
+        // pixnet.GetContent();
+        // pixnet.SaveResult();
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the CKIP Account ID:");
