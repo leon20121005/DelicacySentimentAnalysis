@@ -1,6 +1,6 @@
 public class Term
 {
-	private String _term; //詞
+    private String _term; //詞
 	private String _tag; //詞性
 
 	public Term(String term, String tag)

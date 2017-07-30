@@ -13,7 +13,7 @@ import org.jsoup.select.Elements;
 
 public class IPeenCrawler
 {
-    private final String ROOT_URL = "http://www.ipeen.com.tw";   
+    private final String ROOT_URL = "http://www.ipeen.com.tw";
     private final String SHOP_CONDITION = "a[data-label='店名'][href]";
     private final String ADDRESS_CONDITION = "a[data-label='上方地址']";
     private final String COMMENT_LINK_CONDITION = "a[itemprop='discussionUrl url'][href]";
@@ -53,7 +53,7 @@ public class IPeenCrawler
     public boolean SaveResult()
     {
         try (PrintWriter writer = new PrintWriter("result.txt"))
-        {   
+        {
             writer.println(_builder.toString());
             return true;
         }
@@ -66,12 +66,12 @@ public class IPeenCrawler
     private String GetShopInformation()
     {
         try
-		{
-			Document doc = Jsoup.connect(ROOT_URL + _shopListURL).get();
-			Elements shopLinks = doc.select(SHOP_CONDITION);
+        {
+            Document doc = Jsoup.connect(ROOT_URL + _shopListURL).get();
+            Elements shopLinks = doc.select(SHOP_CONDITION);
             int index = 0;
 
-			_builder.append(doc.title()).append("\n");
+            _builder.append(doc.title()).append("\n");
 
             for (Element shopLink : shopLinks)
             {
@@ -80,16 +80,16 @@ public class IPeenCrawler
                     break;
                 }
                 _builder.append("\n").append("Title: ").append(shopLink.text()); //List底下每個文章的Title
-				_builder.append("\n").append("Link: ").append(ROOT_URL + shopLink.attr("href")); //List底下每個文章的連結
+                _builder.append("\n").append("Link: ").append(ROOT_URL + shopLink.attr("href")); //List底下每個文章的連結
                 _builder.append("\n").append(GetAddress(ROOT_URL + shopLink.attr("href"))); //每個文章裡面的地址
                 _builder.append("\n").append(GetComments(ROOT_URL + shopLink.attr("href"))); //每個文章裡面的所有評論
             }
-		}
-		catch (IOException e)
-		{
-			_builder.append("\n").append("Error: ").append(e.getMessage());
-		}
-        return _builder.toString();        
+        }
+        catch (IOException e)
+        {
+            _builder.append("\n").append("Error: ").append(e.getMessage());
+        }
+        return _builder.toString();
     }
 
     private String GetAddress(String link)
@@ -110,8 +110,8 @@ public class IPeenCrawler
         }
     }
 
-	private String GetComments(String link)
-	{
+    private String GetComments(String link)
+    {
         try
         {
             Document doc = Jsoup.connect(link).get();
@@ -137,11 +137,11 @@ public class IPeenCrawler
         {
             return "Comment: none";
         }
-	}
+    }
 
     //從評論的列表中連進去得到一篇篇評論的內容
     private String GetComment(String link)
-	{
+    {
         try
         {
             Document doc = Jsoup.connect(link).get();
@@ -164,7 +164,7 @@ public class IPeenCrawler
         {
             return "Error: " + e.getMessage();
         }
-	}
+    }
 
     //修正評論裡面的雜訊並且把評論切割成句子的字串陣列
     private String[] ReviseComment(String comment)

@@ -12,8 +12,8 @@ public class PIXNETCrawler
     private final String HOME_URL = "http://zineblog.com.tw/blog/post/45501739";
     private final String HOME_CONDITION = "a[href]:contains(【)";
     private final String ADDRESS_CONDITION = "span:contains(地址)";
-	private final String ARTICLE_CONDITION = "div.entry-content";
-	private final int MAX_ARTICLE = 5;
+    private final String ARTICLE_CONDITION = "div.entry-content";
+    private final int MAX_ARTICLE = 5;
     private StringBuilder _builder;
 
     public PIXNETCrawler()
@@ -23,26 +23,26 @@ public class PIXNETCrawler
 
     public String GetContent()
     {
-		try
-		{
-			Document doc = Jsoup.connect(HOME_URL).get();
-			String title = doc.title();
-			Elements links = doc.select(HOME_CONDITION);
+        try
+        {
+            Document doc = Jsoup.connect(HOME_URL).get();
+            String title = doc.title();
+            Elements links = doc.select(HOME_CONDITION);
 
-			_builder.append(title).append("\n");
+            _builder.append(title).append("\n");
 
-			for (int i = 0; i < MAX_ARTICLE; i++)
-			{
-				_builder.append("\n").append("Title: ").append(links.get(i).text()); //Home底下每個文章的Title
-				_builder.append("\n").append("Link: ").append(links.get(i).attr("href")); //Home底下每個文章的連結
-				GetAddress(links.get(i).attr("href")); //找出文章裡面的地址
-				GetArticle(links.get(i).attr("href")); //找出文章裡面評論的部分
-			}
-		}
-		catch (IOException e)
-		{
-			_builder.append("\n").append("Error: ").append(e.getMessage());
-		}
+            for (int i = 0; i < MAX_ARTICLE; i++)
+            {
+                _builder.append("\n").append("Title: ").append(links.get(i).text()); //Home底下每個文章的Title
+                _builder.append("\n").append("Link: ").append(links.get(i).attr("href")); //Home底下每個文章的連結
+                GetAddress(links.get(i).attr("href")); //找出文章裡面的地址
+                GetArticle(links.get(i).attr("href")); //找出文章裡面評論的部分
+            }
+        }
+        catch (IOException e)
+        {
+            _builder.append("\n").append("Error: ").append(e.getMessage());
+        }
         return _builder.toString();
     }
 
@@ -86,8 +86,8 @@ public class PIXNETCrawler
         }
     }
 
-	private void GetArticle(String link)
-	{
+    private void GetArticle(String link)
+    {
         try
         {
             Document doc = Jsoup.connect(link).get();
@@ -96,9 +96,9 @@ public class PIXNETCrawler
 
             for (String segment : segments)
             {
-				_builder.append("\n").append("Content: ").append(segment);
+                _builder.append("\n").append("Content: ").append(segment);
             }
-			_builder.append("\n");
+            _builder.append("\n");
         }
         catch (IOException e)
         {
@@ -108,5 +108,5 @@ public class PIXNETCrawler
         {
             _builder.append("\n").append("Content: none").append("\n");
         }
-	}
+    }
 }
