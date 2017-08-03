@@ -5,8 +5,8 @@ public class main
     public static void main(String[] args) throws Exception
     {
         IPeenCrawler crawler = new IPeenCrawler();
-        // crawler.Search("炸雞");
-        // crawler.SaveResult();
+        System.out.println(crawler.Search("炸雞"));
+        crawler.SaveResult();
 
         PIXNETCrawler pixnet = new PIXNETCrawler();
         // pixnet.GetContent();

@@ -1,4 +1,6 @@
 import java.net.URL;
+import java.util.List;
+import java.util.ArrayList;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -19,13 +21,14 @@ public class IPeenCrawler
     private final String COMMENT_LINK_CONDITION = "a[itemprop='discussionUrl url'][href]";
     private final String COMMENT_CONDITION = "div.description";
     private final int MAX_SHOP = 5;
-    private final int MAX_COMMENT_PER_SHOP = 1;
-    private StringBuilder _builder;
+    private final int MAX_COMMENT_PER_SHOP = 2;
     private String _shopListURL;
+    private List<Comment> _commentList;
+    private Comment _currentComment;
 
     public IPeenCrawler()
     {
-        _builder = new StringBuilder();
+        _commentList = new ArrayList<Comment>();
     }
 
     //根據類別搜尋美食
@@ -52,9 +55,20 @@ public class IPeenCrawler
     //儲存結果至文字檔案
     public boolean SaveResult()
     {
+        StringBuilder builder = new StringBuilder();
+        builder.append("List size: ").append(_commentList.size()).append("\n");
+
+        for (Comment comment : _commentList)
+        {
+            builder.append("\n").append("Name: ").append(comment.GetShopName());
+            builder.append("\n").append("Link: ").append(comment.GetShopLink());
+            builder.append("\n").append("Address: ").append(comment.GetShopAddress());
+            builder.append("\n").append("Content: ").append(comment.GetContent());
+            builder.append("\n");
+        }
         try (PrintWriter writer = new PrintWriter("result.txt"))
         {
-            writer.println(_builder.toString());
+            writer.println(builder.toString());
             return true;
         }
         catch (FileNotFoundException e)
@@ -71,7 +85,7 @@ public class IPeenCrawler
             Elements shopLinks = doc.select(SHOP_CONDITION);
             int index = 0;
 
-            _builder.append(doc.title()).append("\n");
+            // _builder.append(doc.title()).append("\n");
 
             for (Element shopLink : shopLinks)
             {
@@ -79,17 +93,18 @@ public class IPeenCrawler
                 {
                     break;
                 }
-                _builder.append("\n").append("Title: ").append(shopLink.text()); //List底下每個文章的Title
-                _builder.append("\n").append("Link: ").append(ROOT_URL + shopLink.attr("href")); //List底下每個文章的連結
-                _builder.append("\n").append(GetAddress(ROOT_URL + shopLink.attr("href"))); //每個文章裡面的地址
-                _builder.append("\n").append(GetComments(ROOT_URL + shopLink.attr("href"))); //每個文章裡面的所有評論
+                _currentComment = new Comment();
+                _currentComment.SetShopName(shopLink.text()); //設定要放入Comment List的評論的商店名字
+                _currentComment.SetShopLink(ROOT_URL + shopLink.attr("href")); //設定要放入Comment List的評論的商店連結
+                _currentComment.SetShopAddress(GetAddress(ROOT_URL + shopLink.attr("href"))); //設定要放入Comment List的評論的商店地址
+                GetComments(ROOT_URL + shopLink.attr("href"));
             }
         }
         catch (IOException e)
         {
-            _builder.append("\n").append("Error: ").append(e.getMessage());
+            return "Error: " + e.getMessage();
         }
-        return _builder.toString();
+        return "Process successfully completed";
     }
 
     private String GetAddress(String link)
@@ -110,13 +125,12 @@ public class IPeenCrawler
         }
     }
 
-    private String GetComments(String link)
+    private void GetComments(String link)
     {
         try
         {
             Document doc = Jsoup.connect(link).get();
             Elements commentLinks = doc.select(COMMENT_LINK_CONDITION);
-            StringBuilder builder = new StringBuilder();
             int index = 0;
 
             for (Element commentLink : commentLinks)
@@ -125,31 +139,28 @@ public class IPeenCrawler
                 {
                     break;
                 }
-                builder.append(GetComment(ROOT_URL + commentLink.attr("href"))).append("\n");
+                GetComment(ROOT_URL + commentLink.attr("href"));
             }
-            return builder.toString();
         }
         catch (IOException e)
         {
-            return "Error: " + e.getMessage();
+            e.printStackTrace();
         }
         catch (IndexOutOfBoundsException e)
         {
-            return "Comment: none";
+            e.printStackTrace();
         }
     }
 
     //從評論的列表中連進去得到一篇篇評論的內容
-    private String GetComment(String link)
+    private void GetComment(String link)
     {
         try
         {
             Document doc = Jsoup.connect(link).get();
             Element comment = doc.select(COMMENT_CONDITION).first();
-            StringBuilder builder = new StringBuilder();
             String[] segments = ReviseComment(comment.text());
-
-            builder.append("Comment: ").append("\n");
+            StringBuilder builder = new StringBuilder();
 
             for (String segment : segments)
             {
@@ -158,11 +169,13 @@ public class IPeenCrawler
                     builder.append(segment).append("\n");
                 }
             }
-            return builder.toString();
+            builder.deleteCharAt(builder.length() - 1);
+            _currentComment.SetContent(builder.toString()); //設定要放入Comment List的評論的內容
+            _commentList.add(new Comment(_currentComment));  //放入Comment List
         }
         catch (IOException e)
         {
-            return "Error: " + e.getMessage();
+            e.printStackTrace();
         }
     }
 

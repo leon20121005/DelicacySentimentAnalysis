@@ -9,6 +9,15 @@ public class Comment
     {
     }
 
+    //Copy constructor
+    public Comment(Comment comment)
+    {
+        _shopName = comment.GetShopName();
+        _shopLink = comment.GetShopLink();
+        _shopAddress = comment.GetShopAddress();
+        _content = comment.GetContent();
+    }
+
     public String GetShopName()
     {
         return _shopName;
