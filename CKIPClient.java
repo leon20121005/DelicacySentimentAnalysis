@@ -91,7 +91,7 @@ public class CKIPClient
         Element root = document.addElement("wordsegmentation").addAttribute("version", "0.1");
         root.addElement("option").addAttribute("showcategory", "1");
         root.addElement("authentication").addAttribute("username", _userName).addAttribute("password", _password);
-        root.addElement("text").addText("這是一個測試");
+        root.addElement("text").addText("吐司烤的酥脆，吃起來很香，由於我有加月見蛋，他們便在吐司中心挖了一個洞並放入這個半熟蛋，形成有特色的擺盤樣式，蛋汁為吐司的乾燥增加了些溼潤，吃起來更順口，讓整個口感上升了一個層次；可惜的是吃到後來蛋汁讓吐司便得有些軟綿，吃起來感覺不是很好，如果蛋汁的量要再少一些會比較恰當。整體來說味道有中上的程度，滿分5顆星我可以給到3.7左右，但價格算是偏貴的 ，想要偶爾一次的聚餐會是個不錯的選擇。");
 
         return document;
     }
@@ -107,6 +107,7 @@ public class CKIPClient
             for (Iterator<?> i = root.elementIterator("result"); i.hasNext();)
             {
                 next = (Element) i.next();
+				//找sentence
                 for (Iterator<?> j = next.elementIterator(); j.hasNext();)
                 {
                     Element element = (Element) j.next();
