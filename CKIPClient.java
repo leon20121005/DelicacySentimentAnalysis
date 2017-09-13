@@ -42,7 +42,7 @@ public class CKIPClient
     public void Send()
     {
         try
-        {	
+        {   
             Socket socket = new Socket(_serverIP, _serverPort);
             OutputStreamWriter osWriter = new OutputStreamWriter(socket.getOutputStream());
             PrintWriter printWriter = new PrintWriter(osWriter);
@@ -64,7 +64,7 @@ public class CKIPClient
         catch (java.io.IOException e)
         {
             e.printStackTrace();
-        }	
+        }   
         ParseSentence();
         ParseTerm();
     }
@@ -107,7 +107,7 @@ public class CKIPClient
             for (Iterator<?> i = root.elementIterator("result"); i.hasNext();)
             {
                 next = (Element) i.next();
-				//找sentence
+                //找sentence
                 for (Iterator<?> j = next.elementIterator(); j.hasNext();)
                 {
                     Element element = (Element) j.next();
