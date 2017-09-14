@@ -9,23 +9,23 @@ public class Term
         _tag = tag;
     }
 
-    public void SetTerm(String term)
-    {
-        _term = term;
-    }
-
     public String GetTerm()
     {
         return _term;
     }
 
-    public void SetTag(String tag)
-    {
-        _tag = tag;
-    }
-
     public String GetTag()
     {
         return _tag;
+    }
+
+    public void SetTerm(String term)
+    {
+        _term = term;
+    }
+
+    public void SetTag(String tag)
+    {
+        _tag = tag;
     }
 }

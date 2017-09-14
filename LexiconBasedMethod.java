@@ -1,67 +1,67 @@
-import java.util.Scanner;
+import java.util.List;
 
 public class LexiconBasedMethod
 {
-    public static void main(String[] args) throws Exception
-    {
-
-    }
-
     //計算字典法分數
-    public int CalcuateScore (List<Term> termList)
+    public int CalcuateScore(List<Term> termList)
     {
         int score = 0;
-        int isAdv = 0;
-        int iscpmplete = 0;
-        for(Term element : termList)
+        boolean isAdv = false;
+        int isComplete = 0;
+
+        List<Term> advList = null;
+        List<Term> positiveList = null;
+        List<Term> negativeList = null;
+        
+        for (Term element : termList)
         {
-            iscpmplete = 0;
-            for(Term Adv : AdvList)
+            isComplete = 0;
+            for (Term adv : advList)
             {
-                if(Adv.GetTerm = element.GetTerm)
+                if (adv.GetTerm() == element.GetTerm())
                 {
-                    isAdv = 1;
-                    iscpmplete = 1;
+                    isAdv = true;
+                    isComplete = 1;
                     break;
                 }
             }
 
-            if(iscpmplete = 1)
+            if (isComplete == 1)
             {
                 continue;
             }
-            
-            for(Term positive : positiveList)
+
+            for (Term positive : positiveList)
             {
-                if(positive.GetTerm = element.GetTerm)
+                if (positive.GetTerm() == element.GetTerm())
                 {
-                    if(isAdv)
+                    if (isAdv)
                     {
                         score = score + 2 * 1;
-                        isAdv = 0;
+                        isAdv = false;
                     }
                     else
                     {
                         score = score - 1;
                     }
-                    iscpmplete = 1;
+                    isComplete = 1;
                     break;
                 }
             }
 
-            if(iscpmplete = 1)
+            if (isComplete == 1)
             {
                 continue;
             }
 
-            for(Term negative : negativeList)
+            for (Term negative : negativeList)
             {
-                if(negative.GetTerm = element.GetTerm)
+                if (negative.GetTerm() == element.GetTerm())
                 {
-                    if(isAdv)
+                    if (isAdv)
                     {
                         score = score - 2 * 1;
-                        isAdv = 0;
+                        isAdv = false;
                     }
                     else
                     {
@@ -71,5 +71,6 @@ public class LexiconBasedMethod
                 }
             }
         }
+        return score;
     }
 }

@@ -71,7 +71,7 @@ public class IPeenCrawler
             writer.println(builder.toString());
             return true;
         }
-        catch (FileNotFoundException e)
+        catch (FileNotFoundException exception)
         {
             return false;
         }
@@ -100,9 +100,9 @@ public class IPeenCrawler
                 GetComments(ROOT_URL + shopLink.attr("href"));
             }
         }
-        catch (IOException e)
+        catch (IOException exception)
         {
-            return "Error: " + e.getMessage();
+            return "Error: " + exception.getMessage();
         }
         return "Process successfully completed";
     }
@@ -115,11 +115,11 @@ public class IPeenCrawler
             Element address = doc.select(ADDRESS_CONDITION).first();
             return "Address: " + address.text();
         }
-        catch (IOException e)
+        catch (IOException exception)
         {
-            return "Error: " + e.getMessage();
+            return "Error: " + exception.getMessage();
         }
-        catch (NullPointerException e)
+        catch (NullPointerException exception)
         {
             return "Address: none";
         }
@@ -142,13 +142,13 @@ public class IPeenCrawler
                 GetComment(ROOT_URL + commentLink.attr("href"));
             }
         }
-        catch (IOException e)
+        catch (IOException exception)
         {
-            e.printStackTrace();
+            exception.printStackTrace();
         }
-        catch (IndexOutOfBoundsException e)
+        catch (IndexOutOfBoundsException exception)
         {
-            e.printStackTrace();
+            exception.printStackTrace();
         }
     }
 
@@ -173,9 +173,9 @@ public class IPeenCrawler
             _currentComment.SetContent(builder.toString()); //設定要放入Comment List的評論的內容
             _commentList.add(new Comment(_currentComment));  //放入Comment List
         }
-        catch (IOException e)
+        catch (IOException exception)
         {
-            e.printStackTrace();
+            exception.printStackTrace();
         }
     }
 

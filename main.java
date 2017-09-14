@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class main
@@ -19,11 +20,21 @@ public class main
         String password = scanner.nextLine();
 
         CKIPClient client = new CKIPClient(id, password);
-        client.Send();
+        client.SendRequest(null);
+        client.ParseResult();
 
         System.out.println(client.GetReceivedRawText());
-        System.out.println(client.GetSentenceList().get(0));
-        System.out.println(client.GetTermList().get(0).GetTerm());
-        System.out.println(client.GetTermList().get(0).GetTag());
+
+        List<String> sentenceList = client.GetSentenceList();
+        for (String sentence : sentenceList)
+        {
+            System.out.println(sentence);
+        }
+
+        List<Term> termList = client.GetTermList();
+        for (Term term : termList)
+        {
+            System.out.println(term.GetTerm() + " (" + term.GetTag() + ")");
+        }
     }
 }

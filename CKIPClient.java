@@ -39,14 +39,14 @@ public class CKIPClient
     }
 
     //建立和CKIP伺服器的Socket連線並傳送資料和接收資料
-    public void Send()
+    public void SendRequest(String article)
     {
         try
-        {   
+        {
             Socket socket = new Socket(_serverIP, _serverPort);
             OutputStreamWriter osWriter = new OutputStreamWriter(socket.getOutputStream());
             PrintWriter printWriter = new PrintWriter(osWriter);
-            printWriter.println(CreateDocument().asXML());
+            printWriter.println(CreateDocument(article).asXML());
             printWriter.flush();
 
             InputStreamReader isReader = new InputStreamReader(socket.getInputStream());
@@ -57,41 +57,39 @@ public class CKIPClient
             bufferedReader.close();
             socket.close();
         }
-        catch (java.net.UnknownHostException e)
+        catch (java.net.UnknownHostException exception)
         {
-            e.printStackTrace();
+            exception.printStackTrace();
         }
-        catch (java.io.IOException e)
+        catch (java.io.IOException exception)
         {
-            e.printStackTrace();
-        }   
+            exception.printStackTrace();
+        }
+    }
+
+    public void ParseResult()
+    {
         ParseSentence();
         ParseTerm();
     }
 
-    public String GetReceivedRawText()
-    {
-        return _receivedRawText;
-    }
-
-    public List<String> GetSentenceList()
-    {
-        return _sentenceList;
-    }
-
-    public List<Term> GetTermList()
-    {
-        return _termList;
-    }
-
     //建立要傳送到CKIP的XML格式檔案
-    private Document CreateDocument()
+    private Document CreateDocument(String content)
     {
         Document document = DocumentHelper.createDocument();
         Element root = document.addElement("wordsegmentation").addAttribute("version", "0.1");
         root.addElement("option").addAttribute("showcategory", "1");
         root.addElement("authentication").addAttribute("username", _userName).addAttribute("password", _password);
-        root.addElement("text").addText("吐司烤的酥脆，吃起來很香，由於我有加月見蛋，他們便在吐司中心挖了一個洞並放入這個半熟蛋，形成有特色的擺盤樣式，蛋汁為吐司的乾燥增加了些溼潤，吃起來更順口，讓整個口感上升了一個層次；可惜的是吃到後來蛋汁讓吐司便得有些軟綿，吃起來感覺不是很好，如果蛋汁的量要再少一些會比較恰當。整體來說味道有中上的程度，滿分5顆星我可以給到3.7左右，但價格算是偏貴的 ，想要偶爾一次的聚餐會是個不錯的選擇。");
+
+        //輸入為null的話就加入測試字串
+        if (content == null)
+        {
+            root.addElement("text").addText("吐司烤的酥脆，吃起來很香，由於我有加月見蛋，他們便在吐司中心挖了一個洞並放入這個半熟蛋，形成有特色的擺盤樣式，蛋汁為吐司的乾燥增加了些溼潤，吃起來更順口，讓整個口感上升了一個層次；可惜的是吃到後來蛋汁讓吐司便得有些軟綿，吃起來感覺不是很好，如果蛋汁的量要再少一些會比較恰當。整體來說味道有中上的程度，滿分5顆星我可以給到3.7左右，但價格算是偏貴的，想要偶爾一次的聚餐會是個不錯的選擇。");
+        }
+        else
+        {
+            root.addElement("text").addText(content);
+        }
 
         return document;
     }
@@ -115,9 +113,9 @@ public class CKIPClient
                 }
             }
         }
-        catch (org.dom4j.DocumentException e)
+        catch (org.dom4j.DocumentException exception)
         {
-            e.printStackTrace();
+            exception.printStackTrace();
         }
     }
 
@@ -142,5 +140,20 @@ public class CKIPClient
                 }
             }
         }
+    }
+
+    public String GetReceivedRawText()
+    {
+        return _receivedRawText;
+    }
+
+    public List<String> GetSentenceList()
+    {
+        return _sentenceList;
+    }
+
+    public List<Term> GetTermList()
+    {
+        return _termList;
     }
 }
