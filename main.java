@@ -36,5 +36,11 @@ public class main
         {
             System.out.println(term.GetTerm() + " (" + term.GetTag() + ")");
         }
+
+        LexiconBasedMethod lexiconBasedMethod = new LexiconBasedMethod();
+        lexiconBasedMethod.readTxt();
+        int _score = lexiconBasedMethod.CalculateScore(termList);
+        System.out.println("我是分數");
+        System.out.println(_score);
     }
 }
