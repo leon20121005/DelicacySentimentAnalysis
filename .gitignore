@@ -23,3 +23,9 @@ hs_err_pid*
 
 *.bat
 *.txt
+
+#eclipse project
+*.project
+
+#eclipse classpath
+*.classpath

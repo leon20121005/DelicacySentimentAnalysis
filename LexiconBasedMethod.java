@@ -2,6 +2,7 @@ import java.util.List;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.*;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -13,9 +14,9 @@ import org.dom4j.Element;
 
 public class LexiconBasedMethod
 {
-    private static List<String> _adverbList;
-    private static List<String> _positiveList;
-    private static List<String> _negativeList;
+    private List<String> _adverbList;
+    private List<String> _positiveList;
+    private List<String> _negativeList;
 
     public LexiconBasedMethod()
     {
@@ -24,33 +25,45 @@ public class LexiconBasedMethod
         _adverbList = new ArrayList<String>();
     }
     //讀取字典
-    public static void readTxt() throws IOException
+    public void readTxt() throws IOException
     {
         //public static void readTxt(String [] argv) throws IOException
-		FileReader positiveReader = new FileReader("NTUSD_positive_unicode.txt");
-        FileReader negativeReader = new FileReader("NTUSD_negative_unicode.txt");
-        FileReader adverbReader = new FileReader("NTUSD_adverb_unicode.txt");
-		BufferedReader positiveBufferReader = new BufferedReader(positiveReader);
-        BufferedReader negativeBufferReader = new BufferedReader(negativeReader);
-        BufferedReader adverbBufferReader = new BufferedReader(adverbReader);
+		BufferedReader positiveBufferReader = new BufferedReader(new InputStreamReader(new FileInputStream("NTUSD_positive_unicode.txt"),"utf8"));
+        BufferedReader negativeBufferReader = new BufferedReader(new InputStreamReader(new FileInputStream("NTUSD_negative_unicode.txt"),"utf8"));
+        BufferedReader adverbBufferReader = new BufferedReader(new InputStreamReader(new FileInputStream("NTUSD_adverb_unicode.txt"),"utf8"));
+        //positiveBufferReader.read();
+        //negativeBufferReader.read();
+        //adverbBufferReader.read();
+
 		while (positiveBufferReader.ready())
         {
             _positiveList.add(positiveBufferReader.readLine());
 			//br.readLine();
 		}
-		positiveReader.close();
+        for (String e : _positiveList) 
+        {
+            System.out.println("我是正面詞:" + e.toString());
+        }
 
         while (negativeBufferReader.ready())
         {
             _negativeList.add(negativeBufferReader.readLine());
 		}
-		negativeReader.close();
+
+        /*for (String e : _negativeList) 
+        {
+            System.out.println("我是負面詞:" + e.toString());
+        }*/
 
         while (adverbBufferReader.ready())
         {
             _adverbList.add(adverbBufferReader.readLine());
 		}
-		adverbReader.close();
+
+        for (String e : _adverbList) 
+        {
+            System.out.println("我是副詞:" + e.toString());
+        }
 	}
 
     
@@ -68,7 +81,7 @@ public class LexiconBasedMethod
             isComplete = 0;
             for (String  adv : _adverbList)
             {
-                if (adv == element.GetTerm())
+                if (adv.equals(element.GetTerm()))
                 {
                     isAdv = true;
                     isComplete = 1;
@@ -83,7 +96,7 @@ public class LexiconBasedMethod
 
             for (String positive : _positiveList)
             {
-                if (positive == element.GetTerm())
+                if (positive.equals(element.GetTerm()))
                 {
                     if (isAdv)
                     {
@@ -92,7 +105,7 @@ public class LexiconBasedMethod
                     }
                     else
                     {
-                        score = score - 1;
+                        score = score + 1;
                     }
                     isComplete = 1;
                     break;
@@ -106,7 +119,7 @@ public class LexiconBasedMethod
 
             for (String negative : _negativeList)
             {
-                if (negative == element.GetTerm())
+                if (negative.equals(element.GetTerm()))
                 {
                     if (isAdv)
                     {
