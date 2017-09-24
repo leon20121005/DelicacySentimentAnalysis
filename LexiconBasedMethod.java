@@ -28,18 +28,18 @@ public class LexiconBasedMethod
     public void readTxt() throws IOException
     {
         //public static void readTxt(String [] argv) throws IOException
-		BufferedReader positiveBufferReader = new BufferedReader(new InputStreamReader(new FileInputStream("NTUSD_positive_unicode.txt"),"utf8"));
+        BufferedReader positiveBufferReader = new BufferedReader(new InputStreamReader(new FileInputStream("NTUSD_positive_unicode.txt"),"utf8"));
         BufferedReader negativeBufferReader = new BufferedReader(new InputStreamReader(new FileInputStream("NTUSD_negative_unicode.txt"),"utf8"));
         BufferedReader adverbBufferReader = new BufferedReader(new InputStreamReader(new FileInputStream("NTUSD_adverb_unicode.txt"),"utf8"));
         //positiveBufferReader.read();
         //negativeBufferReader.read();
         //adverbBufferReader.read();
 
-		while (positiveBufferReader.ready())
+        while (positiveBufferReader.ready())
         {
             _positiveList.add(positiveBufferReader.readLine());
-			//br.readLine();
-		}
+            //br.readLine();
+        }
         for (String e : _positiveList) 
         {
             System.out.println("我是正面詞:" + e.toString());
@@ -48,7 +48,7 @@ public class LexiconBasedMethod
         while (negativeBufferReader.ready())
         {
             _negativeList.add(negativeBufferReader.readLine());
-		}
+        }
 
         /*for (String e : _negativeList) 
         {
@@ -58,13 +58,13 @@ public class LexiconBasedMethod
         while (adverbBufferReader.ready())
         {
             _adverbList.add(adverbBufferReader.readLine());
-		}
+        }
 
         for (String e : _adverbList) 
         {
             System.out.println("我是副詞:" + e.toString());
         }
-	}
+    }
 
     
 
