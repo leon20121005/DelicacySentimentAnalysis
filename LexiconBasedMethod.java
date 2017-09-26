@@ -24,13 +24,14 @@ public class LexiconBasedMethod
         _negativeList = new ArrayList<String>();
         _adverbList = new ArrayList<String>();
     }
+
     //讀取字典
     public void readTxt() throws IOException
     {
         //public static void readTxt(String [] argv) throws IOException
-        BufferedReader positiveBufferReader = new BufferedReader(new InputStreamReader(new FileInputStream("NTUSD_positive_unicode.txt"),"utf8"));
-        BufferedReader negativeBufferReader = new BufferedReader(new InputStreamReader(new FileInputStream("NTUSD_negative_unicode.txt"),"utf8"));
-        BufferedReader adverbBufferReader = new BufferedReader(new InputStreamReader(new FileInputStream("NTUSD_adverb_unicode.txt"),"utf8"));
+        BufferedReader positiveBufferReader = new BufferedReader(new InputStreamReader(new FileInputStream("NTUSD_positive_unicode.txt"), "utf8"));
+        BufferedReader negativeBufferReader = new BufferedReader(new InputStreamReader(new FileInputStream("NTUSD_negative_unicode.txt"), "utf8"));
+        BufferedReader adverbBufferReader = new BufferedReader(new InputStreamReader(new FileInputStream("NTUSD_adverb_unicode.txt"), "utf8"));
         //positiveBufferReader.read();
         //negativeBufferReader.read();
         //adverbBufferReader.read();
@@ -40,7 +41,8 @@ public class LexiconBasedMethod
             _positiveList.add(positiveBufferReader.readLine());
             //br.readLine();
         }
-        for (String e : _positiveList) 
+
+        for (String e : _positiveList)
         {
             System.out.println("我是正面詞:" + e.toString());
         }
@@ -50,7 +52,7 @@ public class LexiconBasedMethod
             _negativeList.add(negativeBufferReader.readLine());
         }
 
-        /*for (String e : _negativeList) 
+        /*for (String e : _negativeList)
         {
             System.out.println("我是負面詞:" + e.toString());
         }*/
@@ -60,14 +62,11 @@ public class LexiconBasedMethod
             _adverbList.add(adverbBufferReader.readLine());
         }
 
-        for (String e : _adverbList) 
+        for (String e : _adverbList)
         {
             System.out.println("我是副詞:" + e.toString());
         }
     }
-
-    
-
 
     //計算字典法分數
     public int CalculateScore(List<Term> termList)
@@ -75,7 +74,7 @@ public class LexiconBasedMethod
         int score = 0;
         boolean isAdv = false;
         int isComplete = 0;
-        
+
         for (Term element : termList)
         {
             isComplete = 0;

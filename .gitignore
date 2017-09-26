@@ -22,10 +22,10 @@
 hs_err_pid*
 
 *.bat
-*.txt
+result.txt
 
-#eclipse project
+# eclipse project
 *.project
 
-#eclipse classpath
+# eclipse classpath
 *.classpath
