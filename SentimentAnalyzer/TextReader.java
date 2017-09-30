@@ -1,6 +1,9 @@
 package SentimentAnalyzer;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class TextReader
@@ -9,7 +12,7 @@ public class TextReader
     //one row is an opinion,every opinion split into string and put into arraylist
     private ArrayList<ArrayList<String>> opinionList = new ArrayList<ArrayList<String>> ();
 
-    public void readText(String filename) throws IOException
+    public void ReadText(String filename) throws IOException
     {
         try
         {
@@ -43,13 +46,13 @@ public class TextReader
     }
 
     //get opinionList size
-    public int getSize()
+    public int GetSize()
     {
         return opinionList.size();
     }
 
     //use index to get text in opinionList 
-    public ArrayList<String> getTextByIndex(int index)
+    public ArrayList<String> GetTextByIndex(int index)
     {
         if(index > opinionList.size())
         {

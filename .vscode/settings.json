@@ -2,7 +2,7 @@
 {
     "code-runner.executorMap": {
         "javascript": "node",
-        "java": "cd $dir && javac -encoding utf-8 -classpath 'jsoup-1.10.3.jar;dom4j-2.0.1.jar' *.java && java -classpath 'jsoup-1.10.3.jar;dom4j-2.0.1.jar;.' main IPeenCrawler CKIPClient Term PIXNETCrawler Comment LexiconBasedMethod",
+        "java": "cd $dir && javac -encoding utf-8 -classpath 'jsoup-1.10.3.jar;dom4j-2.0.1.jar;jieba-analysis.jar' *.java && java -classpath 'jsoup-1.10.3.jar;dom4j-2.0.1.jar;jieba-analysis.jar;.' main IPeenCrawler CKIPClient Term PIXNETCrawler Comment LexiconBasedMethod ActionAnalysis TextReader SegmentChinese SentimentAnalyzer FrequencyRecorder KeywordFinder SentimentalDictionary",
         "c": "cd $dir && gcc $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
         "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",
         "objective-c": "cd $dir && gcc -framework Cocoa $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt",

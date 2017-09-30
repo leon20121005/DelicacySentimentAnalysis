@@ -82,7 +82,7 @@ public class PIXNETCrawler
             _ioExceptionTimes++;
         }
 
-        System.out.println("Process finished with " Integer.toString(_commentList.size()) + " results");
+        System.out.println("Process finished with " + Integer.toString(_commentList.size()) + " results");
         System.out.println("IOException occurred " + Integer.toString(_ioExceptionTimes) + " times");
         System.out.println("IndexOutOfBoundsException occurred " + Integer.toString(_indexOutOfBoundsExceptionTimes) + " times");
 

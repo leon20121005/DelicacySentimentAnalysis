@@ -9,9 +9,9 @@ public class main
         // System.out.println(crawler.Search("炸雞"));
         // crawler.SaveResult();
 
-        PIXNETCrawler pixnet = new PIXNETCrawler();
-        pixnet.GetContent();
-        pixnet.SaveResult();
+        //PIXNETCrawler pixnet = new PIXNETCrawler();
+        //pixnet.GetContent();
+        //pixnet.SaveResult();
 
         // Scanner scanner = new Scanner(System.in);
         // System.out.println("Enter the CKIP Account ID:");
@@ -42,5 +42,7 @@ public class main
         // int _score = lexiconBasedMethod.CalculateScore(termList);
         // System.out.println("我是分數");
         // System.out.println(_score);
+
+        ActionAnalysis.Run();
     }
 }
