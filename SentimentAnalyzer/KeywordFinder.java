@@ -18,7 +18,7 @@ public class KeywordFinder
     private static String fileNameOfTraining = new String("");
     private static String fileNameOfAnswer = new String("");
     private static int NumberOfThread = 4;
-    
+
     //set so_rate threshold
     private static double positiveSORate = 3d;
     private static double negativeSORate = 3d;
@@ -48,21 +48,27 @@ public class KeywordFinder
         public void run()
         {
             ArrayList<String> opinion = textReader.GetTextByIndex(_index);
-            for(String sentence : opinion)
+            for (String sentence : opinion)
             {
                 try
                 {
-                    for(String subSentence : segmentChinese.GetSegmentList(sentence)
+                    for (String subSentence : segmentChinese.GetSegmentList(sentence))
                     {
-                        if(subSentence.length() <= 1)
-                        continue;
-                        else if(ans.get(_index))
-                        frequencyRecorder.AddPositiveFrequency(subSentence);
+                        if (subSentence.length() <= 1)
+                        {
+                            continue;
+                        }
+                        else if (ans.get(_index))
+                        {
+                            frequencyRecorder.AddPositiveFrequency(subSentence);
+                        }
                         else
-                        frequencyRecorder.AddNegativeFrequency(subSentence);
+                        {
+                            frequencyRecorder.AddNegativeFrequency(subSentence);
+                        }
                     }
                 }
-                catch(IOException e)
+                catch (IOException e)
                 {
                     e.printStackTrace();
                 }
@@ -71,35 +77,35 @@ public class KeywordFinder
     }
 
     // each Runnable Object holds one string, determining whether if should be added to the dictionary or not
-    public class DictionaryRunnable implements Runnable 
+    public class DictionaryRunnable implements Runnable
     {
-		private String s;
-        DictionaryRunnable(String _s) 
+        private String s;
+        DictionaryRunnable(String _s)
         {
-			s = _s;
-		}
+            s = _s;
+        }
         public void run()
         {
-            if( SO(s) > positiveSORate )
+            if (SO(s) > positiveSORate)
             {
                 dictionary.AddPositiveWord(s);
             }
-            else if( SO(s) < -negativeSORate )
+            else if (SO(s) < -negativeSORate)
             {
                 dictionary.AddNegativeWord(s);
             }
-		}
-	
+        }
+
     }
-    
+
     //return prepared finder,if not found,then create one
     public static KeywordFinder GetInstance()
     {
-        if(finder == null)
+        if (finder == null)
         {
             synchronized(KeywordFinder.class)
             {
-                if(finder == null)
+                if (finder == null)
                 {
                     finder = new KeywordFinder();
                     long beginTime = System.currentTimeMillis();
@@ -144,78 +150,88 @@ public class KeywordFinder
     }
 
     //
-    public void ReadTrainingData() 
+    public void ReadTrainingData()
     {
-		try {
-			// readAnswer
-			System.out.println("Accessing " + fileNameOfAnswer);
-			FileReader fr = new FileReader(fileNameOfAnswer);
-			BufferedReader br = new BufferedReader(fr);
-			String temp = br.readLine();
-			while(temp != null) {
-				if(temp.trim().equals("P")) {
-					ans.add(true);
-					numberOfAnsIsPositive += 1;
-				}
-                else 
+        try
+        {
+            // readAnswer
+            System.out.println("Accessing " + fileNameOfAnswer);
+            FileReader fr = new FileReader(fileNameOfAnswer);
+            BufferedReader br = new BufferedReader(fr);
+            String temp = br.readLine();
+            while (temp != null)
+            {
+                if (temp.trim().equals("P"))
                 {
-					ans.add(false);
-					numberOfAnsIsNegative += 1;
-				}
-				temp = br.readLine();
-			}
-			br.close();
-			// readText
+                    ans.add(true);
+                    numberOfAnsIsPositive += 1;
+                }
+                else
+                {
+                    ans.add(false);
+                    numberOfAnsIsNegative += 1;
+                }
+                temp = br.readLine();
+            }
+            br.close();
+            // readText
             textReader.ReadText(fileNameOfTraining);
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-    
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     public void Train()
     {
-		int n = textReader. GetSize();
-		assert( n == ans.size() && n != 0);
-		ExecutorService frequencyExecutor = Executors.newFixedThreadPool(NumberOfThread);
-		ExecutorService dictionaryExecutor = Executors.newFixedThreadPool(NumberOfThread);
-        for(int i = 0 ; i < n ; i++) 
+        int n = textReader.GetSize();
+        assert(n == ans.size() && n != 0);
+        ExecutorService frequencyExecutor = Executors.newFixedThreadPool(NumberOfThread);
+        ExecutorService dictionaryExecutor = Executors.newFixedThreadPool(NumberOfThread);
+        for (int i = 0; i < n; i++)
         {
-			Runnable task = new FrequencyRunnable(i);
-			frequencyExecutor.execute(task);
-		}
-		frequencyExecutor.shutdown();
-        while( !frequencyExecutor.isTerminated() ) 
+            Runnable task = new FrequencyRunnable(i);
+            frequencyExecutor.execute(task);
+        }
+        frequencyExecutor.shutdown();
+        while (!frequencyExecutor.isTerminated())
         {
+        }
+        for (String s : frequencyRecorder.GetRecordedStrings())
+        {
+            Runnable task = new DictionaryRunnable(s);
+            dictionaryExecutor.execute(task);
+        }
+        dictionaryExecutor.shutdown();
+        while (!dictionaryExecutor.isTerminated())
+        {
+        }
+    }
 
-		}
-        for( String s : frequencyRecorder.GetRecordedStrings() ) 
-        {
-			Runnable task = new DictionaryRunnable(s);
-			dictionaryExecutor.execute(task);
-		}
-		dictionaryExecutor.shutdown();
-		while( !dictionaryExecutor.isTerminated() ) {
-		}
-	}
-
-    public void PrintToFile() 
+    public void PrintToFile()
     {
-        try 
+        try
         {
-			System.out.println("Saving Results into \"./docs/pos_by_training.txt\" and \"./docs/neg_by_training.txt\"");
-			FileWriter fileWriterPositive = new FileWriter("./docs/pos_by_training.txt");
-			for( String s : dictionary.GetPositiveArrayList() )	fileWriterPositive.write(s + "\n");
-			FileWriter fileWriterNegative = new FileWriter("./docs/neg_by_training.txt");
-			for( String s : dictionary.GetNegativeArrayList() )	fileWriterNegative.write(s + "\n");
-			fileWriterPositive.flush();
-			fileWriterNegative.flush();
-			fileWriterPositive.close();
-			fileWriterNegative.close();
-		}
-        catch (IOException e) 
+            System.out.println("Saving Results into \"./docs/pos_by_training.txt\" and \"./docs/neg_by_training.txt\"");
+            FileWriter fileWriterPositive = new FileWriter("./docs/pos_by_training.txt");
+            for (String s : dictionary.GetPositiveArrayList())
+            {
+                fileWriterPositive.write(s + "\n");
+            }
+            FileWriter fileWriterNegative = new FileWriter("./docs/neg_by_training.txt");
+            for (String s : dictionary.GetNegativeArrayList())
+            {
+                fileWriterNegative.write(s + "\n");
+            }
+            fileWriterPositive.flush();
+            fileWriterNegative.flush();
+            fileWriterPositive.close();
+            fileWriterNegative.close();
+        }
+        catch (IOException e)
         {
-			e.printStackTrace();
+            e.printStackTrace();
         }
     }
 }

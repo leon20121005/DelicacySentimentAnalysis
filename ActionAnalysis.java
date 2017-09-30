@@ -35,24 +35,24 @@ public class ActionAnalysis
     {
         try
         {
-            System.setOut( new PrintStream("./log/log.txt") );
-            System.setErr( new PrintStream("./log/log.txt") );
-            SentimentAnalyzer.SetDictionary( filePositive, fileNegative, fileAdverb);
-            SentimentAnalyzer.SetTrainingData( fileTrain, fileAnswer);
-            SentimentAnalyzer.SetSORate( Double.parseDouble(valueSO));
-            SentimentAnalyzer.SetNumberOfThread( Integer.parseInt(valueThread));
+            System.setOut(new PrintStream("./log/log.txt"));
+            System.setErr(new PrintStream("./log/log.txt"));
+            SentimentAnalyzer.SetDictionary(filePositive, fileNegative, fileAdverb);
+            SentimentAnalyzer.SetTrainingData(fileTrain, fileAnswer);
+            SentimentAnalyzer.SetSORate(Double.parseDouble(valueSO));
+            SentimentAnalyzer.SetNumberOfThread(Integer.parseInt(valueThread));
             SentimentAnalyzer sa = new SentimentAnalyzer(fileOpinion, "result.txt");
             sa.Work();
-            BufferedReader br = new BufferedReader( new FileReader("./log/log.txt") );
+            BufferedReader br = new BufferedReader(new FileReader("./log/log.txt"));
             String tmp = br.readLine();
-            while(tmp != null)
+            while (tmp != null)
             {
                 System.out.println(tmp + "\n");
                 tmp = br.readLine();
             }
             br.close();
         }
-        catch (IOException ioe)	
+        catch (IOException ioe)
         {
             ioe.printStackTrace();
         }

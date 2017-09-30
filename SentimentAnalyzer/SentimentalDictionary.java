@@ -11,10 +11,10 @@ public class SentimentalDictionary
     private static SentimentalDictionary dictionary;
 
     //positive,negative,adv filename
-    private static String positiveFilenName = new String ("positive.txt");
-    private static String negativeFileName = new String ("negative.txt");
-    private static String adverbFileName = new String ("advrb.txt");
-    
+    private static String positiveFilenName = new String("positive.txt");
+    private static String negativeFileName = new String("negative.txt");
+    private static String adverbFileName = new String("advrb.txt");
+
     //a HashMap hoiding sentimental words as keys
     private HashMap<String, Integer> myDictionary = new HashMap<String, Integer>;
     //a HashMap holding adverb as keys
@@ -23,11 +23,11 @@ public class SentimentalDictionary
     //return the prepared dictionary,if not found,then creat one
     public static SentimentalDictionary GetInstance()
     {
-        if(dictionary == null)
+        if (dictionary == null)
         {
             synchronized(SentimentalDictionary.class)
             {
-                if(dictionary == null)
+                if (dictionary == null)
                 {
                     dictionary = new SentimentalDictionary();
                     dictionary.MakeDictionary();
@@ -54,7 +54,7 @@ public class SentimentalDictionary
     //add positive word into dictionary
     public synchronized void AddPositiveWord(String string)
     {
-        if(myDictionary.containsKey(string))
+        if (myDictionary.containsKey(string))
         {
             myDictionary.put(string, myDictionary.get(string) + 1);
         }
@@ -67,7 +67,7 @@ public class SentimentalDictionary
     //add negative word into dictionary
     public synchronized void AddNegativeWord(String string)
     {
-        if(myDictionary.containsKey(string))
+        if (myDictionary.containsKey(string))
         {
             myDictionary.put(string, myDictionary.get(string) - 1);
         }
@@ -80,18 +80,24 @@ public class SentimentalDictionary
     //get score of sentimental word,return 0 when not found
     public int GetWordScore(String string)
     {
-        if(string.isEmpty()|| !myDictionary.containsKey(string))
-        return 0;
-        if(myDictionary.get(string) > 0)
-        return 1;
+        if (string.isEmpty() || !myDictionary.containsKey(string))
+        {
+            return 0;
+        }
+        if (myDictionary.get(string) > 0)
+        {
+            return 1;
+        }
         return -1;
     }
 
     //check word if adverb
     public boolean checkAdverb(String string)
     {
-        if(myAdverb.containsKey(string) && !string.isEmpty())
-        return true;
+        if (myAdverb.containsKey(string) && !string.isEmpty())
+        {
+            return true;
+        }
         return false;
     }
 
@@ -99,9 +105,9 @@ public class SentimentalDictionary
     public ArrayList<String> GetPositiveArrayList()
     {
         ArrayList<String> outputList = new ArrayList<String>();
-        for(String word : myDictionary.keySet())
+        for (String word : myDictionary.keySet())
         {
-            if(myDictionary.get(word) > 0)
+            if (myDictionary.get(word) > 0)
             {
                 outputList.add(word);
             }
@@ -113,9 +119,9 @@ public class SentimentalDictionary
     public ArrayList<String> GetNegativeArrayList()
     {
         ArrayList<String> outputList = new ArrayList<String>();
-        for(String word : myDictionary.keySet())
+        for (String word : myDictionary.keySet())
         {
-            if(myDictionary.get(word) < 0)
+            if (myDictionary.get(word) < 0)
             {
                 outputList.add(word);
             }
@@ -132,26 +138,26 @@ public class SentimentalDictionary
     //print dictionary
     public void PrintDictionary()
     {
-        for(String word : myDictionary.keySet())
+        for (String word : myDictionary.keySet())
         {
             System.out.println(word + "," + myDictionary.get(word));
         }
     }
 
-	// put the words into the the HashMaps from files(positive sentimental words, negative sentimental words, adverbs)
-    public  void MakeDictionary()
+    // put the words into the the HashMaps from files(positive sentimental words, negative sentimental words, adverbs)
+    public void MakeDictionary()
     {
         try
         {
             //access positive words
             String[] filenames = {positiveFilenName, "./docs/pos_by_training.txt"};
-            for(String filename : filenames)
+            for (String filename : filenames)
             {
                 System.out.println("ACCESSING" + filename);
                 FileReader fr = new FileReader(filename);
                 BufferedReader br = new BufferedReader(fr);
                 String temp = br.readLine();
-                while(temp != null)
+                while (temp != null)
                 {
                     AddPositiveWord(temp.trim());
                     temp = br.readLine();
@@ -159,7 +165,7 @@ public class SentimentalDictionary
                 br.close();
             }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             System.out.println("File of Positive word not found");
             e.printStackTrace();
@@ -169,13 +175,13 @@ public class SentimentalDictionary
         {
             //access negative words
             String[] filenames = {negativeFileName, "./docs/neg_by_training.txt"};
-            for(String filename : filenames)
+            for (String filename : filenames)
             {
                 System.out.println("ACCESSING" + filename);
                 FileReader fr = new FileReader(filename);
                 BufferedReader br = new BufferedReader(fr);
                 String temp = br.readLine();
-                while(temp != null)
+                while (temp != null)
                 {
                     AddNegativeWord(temp.trim());
                     temp = br.readLine();
@@ -183,7 +189,7 @@ public class SentimentalDictionary
                 br.close();
             }
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             System.out.println("File of Negative word not found");
             e.printStackTrace();
@@ -196,14 +202,14 @@ public class SentimentalDictionary
             FileReader fr = new FileReader(adverbFileName);
             BufferedReader br = new BufferedReader(fr);
             String temp = br.readLine();
-            while(temp != null)
+            while (temp != null)
             {
                 myAdverb.put(temp.trim(), true);
                 temp = br.readLine();
             }
-                br.close();
+            br.close();
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             System.out.println("File of Adverb word not found");
             e.printStackTrace();

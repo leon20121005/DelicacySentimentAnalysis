@@ -42,7 +42,7 @@ public class SegmentChinese
         ArrayList<String> output = new ArrayList<String>();
         for (SegToken token : jiebaSegmenter.process(txt, SegMode.INDEX))
         {
-            if(!token.word.isEmpty())
+            if (!token.word.isEmpty())
             {
                 output.add(token.word);
             }
@@ -51,7 +51,7 @@ public class SegmentChinese
     }
 
     //segment txt and save by string ,every word split by wordSplit
-    public String SegWords(String txt, String wordSpilt)throws IOException
+    public String SegWords(String txt, String wordSpilt) throws IOException
     {
         String output = new String("");
         for (SegToken token : jiebaSegmenter.process(txt, SegMode.INDEX))
