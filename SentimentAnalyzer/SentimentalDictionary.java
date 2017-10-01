@@ -16,9 +16,9 @@ public class SentimentalDictionary
     private static String adverbFileName = new String("advrb.txt");
 
     //a HashMap hoiding sentimental words as keys
-    private HashMap<String, Integer> myDictionary = new HashMap<String, Integer>;
+    private HashMap<String, Integer> myDictionary = new HashMap<String, Integer>();
     //a HashMap holding adverb as keys
-    private HashMap<String, Boolean> myAdverb = new HashMap<Sting, Boolean>;
+    private HashMap<String, Boolean> myAdverb = new HashMap<String, Boolean>();
 
     //return the prepared dictionary,if not found,then creat one
     public static SentimentalDictionary GetInstance()

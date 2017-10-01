@@ -29,3 +29,6 @@ result.txt
 
 # eclipse classpath
 *.classpath
+
+populate_shops.sql
+populate_comments.sql

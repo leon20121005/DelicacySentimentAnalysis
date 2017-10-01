@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class main
@@ -9,9 +10,22 @@ public class main
         // System.out.println(crawler.Search("炸雞"));
         // crawler.SaveResult();
 
-        //PIXNETCrawler pixnet = new PIXNETCrawler();
-        //pixnet.GetContent();
-        //pixnet.SaveResult();
+        // PIXNETCrawler pixnet = new PIXNETCrawler();
+        // pixnet.GetContent();
+        // pixnet.SaveResult();
+
+        long startTime = System.nanoTime();
+
+        List<Comment> commentList = CrawlDelicacyComment();
+        ComputeEvaluation(commentList);
+
+        SqlFactory factory = new SqlFactory();
+        factory.GenerateSqlFile(commentList);
+
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime);
+        System.out.println("Process time (sec): ");
+        System.out.println(duration / 1000000000);
 
         // Scanner scanner = new Scanner(System.in);
         // System.out.println("Enter the CKIP Account ID:");
@@ -43,6 +57,32 @@ public class main
         // System.out.println("我是分數");
         // System.out.println(_score);
 
-        ActionAnalysis.Run();
+        // ActionAnalysis.Run();
+    }
+
+    private static List<Comment> CrawlDelicacyComment()
+    {
+        PIXNETDelicacyExplorer explorer = new PIXNETDelicacyExplorer();
+        List<String> bloggerList = explorer.GetDelicacyBlogger();
+
+        List<Comment> commentList = new ArrayList<>();
+
+        for (String blogger : bloggerList)
+        {
+            String jsonData = explorer.SendRequest(blogger);
+            commentList.addAll(explorer.ParseDelicacyComment(jsonData));
+        }
+        return commentList;
+    }
+
+    private static void ComputeEvaluation(List<Comment> commentList)
+    {
+        PIXNETDelicacyExplorer explorer = new PIXNETDelicacyExplorer();
+
+        for (Comment comment : commentList)
+        {
+            // explorer.ParseCommentContent(comment, comment.GetShopLink());
+            comment.SetEvaluation(10.0);
+        }
     }
 }

@@ -10,14 +10,14 @@ import java.util.TimerTask;
 
 public class ActionAnalysis
 {
-    private String filePositive = new String("positive.txt");
-    private String fileNegative = new String("negative.txt");
-    private String fileAdverb = new String("adverb.txt");
-    private String fileOpinion = new String("Opinion.txt");
-    private String fileTrain = new String("train.txt");
-    private String fileAnswer = new String("answer.txt");
-    private String valueSO = new String("3");
-    private String valueThread = new String("4");
+    private static String filePositive = new String("positive.txt");
+    private static String fileNegative = new String("negative.txt");
+    private static String fileAdverb = new String("adverb.txt");
+    private static String fileOpinion = new String("Opinion.txt");
+    private static String fileTrain = new String("train.txt");
+    private static String fileAnswer = new String("answer.txt");
+    private static String valueSO = new String("3");
+    private static String valueThread = new String("4");
 
     public ActionAnalysis()
     {
