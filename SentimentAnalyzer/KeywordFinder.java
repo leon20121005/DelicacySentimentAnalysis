@@ -213,13 +213,13 @@ public class KeywordFinder
     {
         try
         {
-            System.out.println("Saving Results into \"./docs/pos_by_training.txt\" and \"./docs/neg_by_training.txt\"");
-            FileWriter fileWriterPositive = new FileWriter("./docs/pos_by_training.txt");
+            System.out.println("Saving Results into \"pos_by_training.txt\" and \"neg_by_training.txt\"");
+            FileWriter fileWriterPositive = new FileWriter("pos_by_training.txt");
             for (String s : dictionary.GetPositiveArrayList())
             {
                 fileWriterPositive.write(s + "\n");
             }
-            FileWriter fileWriterNegative = new FileWriter("./docs/neg_by_training.txt");
+            FileWriter fileWriterNegative = new FileWriter("neg_by_training.txt");
             for (String s : dictionary.GetNegativeArrayList())
             {
                 fileWriterNegative.write(s + "\n");

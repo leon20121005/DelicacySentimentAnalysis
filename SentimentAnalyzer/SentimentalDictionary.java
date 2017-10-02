@@ -150,7 +150,7 @@ public class SentimentalDictionary
         try
         {
             //access positive words
-            String[] filenames = {positiveFilenName, "./docs/pos_by_training.txt"};
+            String[] filenames = {positiveFilenName, "pos_by_training.txt"};
             for (String filename : filenames)
             {
                 System.out.println("ACCESSING" + filename);
@@ -174,7 +174,7 @@ public class SentimentalDictionary
         try
         {
             //access negative words
-            String[] filenames = {negativeFileName, "./docs/neg_by_training.txt"};
+            String[] filenames = {negativeFileName, "neg_by_training.txt"};
             for (String filename : filenames)
             {
                 System.out.println("ACCESSING" + filename);

@@ -33,8 +33,8 @@ public class TextReader
                     opinion.add(element);
                 }
                 opinionList.add(opinion);
-                bufferReader.close();
             }
+            bufferReader.close();
         }
         catch (FileNotFoundException e)
         {
