@@ -13,7 +13,7 @@ public class FrequencyRecorder
     private HashMap<String, Integer> frequencyPoisitiveMap = new HashMap<String, Integer>();
     private HashMap<String, Integer> frequencyNegativeMap = new HashMap<String, Integer>();
 
-    // Add the positive frequency of the specific string
+    // add the positive frequency of the specific string
     public synchronized void AddPositiveFrequency(String _string)
     {
         if (!frequencyPoisitiveMap.containsKey(_string))
@@ -26,7 +26,7 @@ public class FrequencyRecorder
         }
     }
 
-    // Add the negative frequency of the specific string
+    // add the negative frequency of the specific string
     public synchronized void AddNegativeFrequency(String _string)
     {
         if (!frequencyNegativeMap.containsKey(_string))

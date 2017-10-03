@@ -10,7 +10,7 @@ public class SentimentalDictionary
     //static dictionary share for all analyzers
     private static SentimentalDictionary dictionary;
 
-    //positive,negative,adv filename
+    //positive, negative, adv filename
     private static String positiveFilenName = new String("positive.txt");
     private static String negativeFileName = new String("negative.txt");
     private static String adverbFileName = new String("advrb.txt");
@@ -20,7 +20,7 @@ public class SentimentalDictionary
     //a HashMap holding adverb as keys
     private HashMap<String, Boolean> myAdverb = new HashMap<String, Boolean>();
 
-    //return the prepared dictionary,if not found,then creat one
+    //return the prepared dictionary, if not found, then creat one
     public static SentimentalDictionary GetInstance()
     {
         if (dictionary == null)
@@ -144,7 +144,7 @@ public class SentimentalDictionary
         }
     }
 
-    // put the words into the the HashMaps from files(positive sentimental words, negative sentimental words, adverbs)
+    //put the words into the the HashMaps from files(positive sentimental words, negative sentimental words, adverbs)
     public void MakeDictionary()
     {
         try

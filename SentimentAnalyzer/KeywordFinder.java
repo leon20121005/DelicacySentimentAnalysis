@@ -32,7 +32,7 @@ public class KeywordFinder
     //create frequency recorder
     private FrequencyRecorder frequencyRecorder = new FrequencyRecorder();
 
-    //an arraylist,it contains the answers of training data
+    //an arraylist, it contains the answers of training data
     private ArrayList<Boolean> ans  = new ArrayList<Boolean>();
     private int numberOfAnsIsPositive = 0;
     private int numberOfAnsIsNegative = 0;
@@ -76,7 +76,7 @@ public class KeywordFinder
         }
     }
 
-    // each Runnable Object holds one string, determining whether if should be added to the dictionary or not
+    //each Runnable Object holds one string, determining whether if should be added to the dictionary or not
     public class DictionaryRunnable implements Runnable
     {
         private String s;
@@ -95,10 +95,9 @@ public class KeywordFinder
                 dictionary.AddNegativeWord(s);
             }
         }
-
     }
 
-    //return prepared finder,if not found,then create one
+    //return prepared finder, if not found, then create one
     public static KeywordFinder GetInstance()
     {
         if (finder == null)
@@ -120,7 +119,7 @@ public class KeywordFinder
         return finder;
     }
 
-    //remoce current finder due to some setting change
+    //remove current finder due to some setting change
     public static void removeInstance()
     {
         finder = null;
@@ -145,7 +144,7 @@ public class KeywordFinder
 
     private double SO(String string)
     {
-        //so formula
+        // so formula
         return Math.log(((double)frequencyRecorder.GetPositiveFrequency(string) + 0.1) / ((double)frequencyRecorder.GetNegativeFrequency(string) + 0.1) * ((double)numberOfAnsIsNegative + 0.1) / ((double)numberOfAnsIsPositive + 0.1));
     }
 

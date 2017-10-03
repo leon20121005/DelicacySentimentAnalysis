@@ -104,7 +104,7 @@ public class SentimentAnalyzer
                 output = String.format(Locale.getDefault(), "NO.%d: rate = ", total_rate) + (total_rate >= 0 ? " (Positive)\n" : " (Negative)\n");
                 for (String sentence : opinion)
                 {
-                    String after_seg =  seg.SegWords(sentence, " ");
+                    String after_seg = seg.SegWords(sentence, " ");
                     output += (after_seg + " "); // print detail
                     for (String segSentence : after_seg.split(" "))
                     {
@@ -231,7 +231,7 @@ public class SentimentAnalyzer
             System.out.println("Completed!");
             System.out.println("Time for Analyzing: " + ((System.currentTimeMillis() - beginTime) / 1000.0) + " second(s)");
             System.out.println("Number of Words in Dictionary: " + dict.GetSize());
-            System.out.println(String.format(Locale.getDefault(), "Positive/Negative: %d/%d", positive , total_opinions - positive));
+            System.out.println(String.format(Locale.getDefault(), "Positive/Negative: %d/%d", positive, total_opinions - positive));
             System.out.println("Frequent Words(>=500): " + f_rec.GetFrequentWordsString(500));
             fw.write("Top Ten Keywords from Positive Opinions: ");
             for (String s : f_rec.GetTopTenPositiveWords())

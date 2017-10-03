@@ -27,8 +27,9 @@ result.txt
 # eclipse project
 *.project
 
-# eclipse classpath
+# eclipse
 *.classpath
+.settings/
 
 populate_shops.sql
 populate_comments.sql

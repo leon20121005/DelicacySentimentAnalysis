@@ -19,7 +19,7 @@ public class SegmentChinese
         jiebaSegmenter = new JiebaSegmenter();
     }
 
-    //return already prepared segment,if not found,then create it
+    //return already prepared segment, if not found, then create it
     public static SegmentChinese GetInstance()
     {
         if (segment == null)
@@ -50,7 +50,7 @@ public class SegmentChinese
         return output;
     }
 
-    //segment txt and save by string ,every word split by wordSplit
+    //segment txt and save by string, every word split by wordSplit
     public String SegWords(String txt, String wordSpilt) throws IOException
     {
         String output = new String("");

@@ -33,29 +33,29 @@ public class ActionAnalysis
 
     public static void Run()
     {
-       // try
-       // {
-            //System.setOut(new PrintStream("log.txt"));
-            //System.setErr(new PrintStream("log.txt"));
+    //    try
+    //    {
+    //         System.setOut(new PrintStream("log.txt"));
+    //         System.setErr(new PrintStream("log.txt"));
             SentimentAnalyzer.SetDictionary(filePositive, fileNegative, fileAdverb);
             SentimentAnalyzer.SetTrainingData(fileTrain, fileAnswer);
             SentimentAnalyzer.SetSORate(Double.parseDouble(valueSO));
             SentimentAnalyzer.SetNumberOfThread(Integer.parseInt(valueThread));
             SentimentAnalyzer sa = new SentimentAnalyzer(fileOpinion, "out.txt");
             sa.Work();
-            /*BufferedReader br = new BufferedReader(new FileReader("log.txt"));
-            String tmp = br.readLine();
-            while (tmp != null)
-            {
-                System.out.println(tmp + "\n");
-                tmp = br.readLine();
-            }
-            br.close();
-        }
-        catch (IOException ioe)
-        {
-            ioe.printStackTrace();
-        }*/
+        //     BufferedReader br = new BufferedReader(new FileReader("log.txt"));
+        //     String tmp = br.readLine();
+        //     while (tmp != null)
+        //     {
+        //         System.out.println(tmp + "\n");
+        //         tmp = br.readLine();
+        //     }
+        //     br.close();
+        // }
+        // catch (IOException ioe)
+        // {
+        //     ioe.printStackTrace();
+        // }
         return;
     }
 }
