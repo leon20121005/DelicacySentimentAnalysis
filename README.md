@@ -10,6 +10,6 @@ If using `cmd.exe` to compile and run:
 
 1. Change directory to current file.
 
-2. Enter `javac -encoding utf-8 -classpath "jsoup-1.10.3.jar;dom4j-2.0.1.jar;jieba-analysis.jar" *.java` to compile.
+2. Enter `javac -encoding utf-8 -classpath "jsoup-1.10.3.jar;dom4j-2.0.1.jar;jieba-analysis.jar;org.json.jar;" *.java` to compile.
 
-3. Enter `java -classpath "jsoup-1.10.3.jar;dom4j-2.0.1.jar;jieba-analysis.jar;." main IPeenCrawler CKIPClient Term PIXNETCrawler Comment LexiconBasedMethod` to run.
+3. Enter `java -classpath "jsoup-1.10.3.jar;dom4j-2.0.1.jar;jieba-analysis.jar;org.json.jar;." main IPeenCrawler CKIPClient Term PIXNETCrawler Comment LexiconBasedMethod ActionAnalysis TextReader SegmentChinese SentimentAnalyzer FrequencyRecorder KeywordFinder SentimentalDictionary PIXNETDelicacyExplorer SqlFactory` to run.

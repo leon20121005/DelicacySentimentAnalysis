@@ -10,9 +10,9 @@ public class main
         // System.out.println(crawler.Search("炸雞"));
         // crawler.SaveResult();
 
-        // PIXNETCrawler pixnet = new PIXNETCrawler();
-        // pixnet.GetContent();
-        // pixnet.SaveResult();
+        // ZingblogCrawler crawler = new ZingblogCrawler();
+        // crawler.GetArticles();
+        // crawler.SaveResult();
 
         long startTime = System.nanoTime();
 
@@ -76,6 +76,7 @@ public class main
         return commentList;
     }
 
+    //根據每一篇comment的URL解析出美食評論內容並算出分數存入evaluation
     private static void ComputeEvaluation(List<Comment> commentList)
     {
         PIXNETDelicacyExplorer explorer = new PIXNETDelicacyExplorer();

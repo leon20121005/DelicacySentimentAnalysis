@@ -9,7 +9,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-public class PIXNETCrawler
+public class ZingblogCrawler
 {
     private final String HOME_URL = "http://zineblog.com.tw/blog/post/45501739";
     private final String HOME_CONDITION = "a[href]:contains(【)";
@@ -23,7 +23,7 @@ public class PIXNETCrawler
     private int _ioExceptionTimes;
     private int _indexOutOfBoundsExceptionTimes;
 
-    public PIXNETCrawler()
+    public ZingblogCrawler()
     {
         _commentList = new ArrayList<Comment>();
     }
@@ -56,7 +56,7 @@ public class PIXNETCrawler
         }
     }
 
-    public List<Comment> GetContent()
+    public List<Comment> GetArticles()
     {
         try
         {
@@ -72,13 +72,13 @@ public class PIXNETCrawler
                 _currentComment.SetShopName(links.get(i).text()); //Home底下每個文章的Title
                 _currentComment.SetShopLink(links.get(i).attr("href")); //Home底下每個文章的連結
                 GetAddress(links.get(i).attr("href")); //找出文章裡面的地址
-                GetArticle(links.get(i).attr("href")); //找出文章裡面評論的部分
+                GetContent(links.get(i).attr("href")); //找出文章裡面評論的部分
                 _commentList.add(_currentComment);
             }
         }
         catch (IOException exception)
         {
-            System.out.println(exception.getMessage() + " in GetConent(), current list size: " + Integer.toString(_commentList.size()));
+            System.out.println(exception.getMessage() + " in GetArticles(), current list size: " + Integer.toString(_commentList.size()));
             _ioExceptionTimes++;
         }
 
@@ -118,13 +118,13 @@ public class PIXNETCrawler
         }
     }
 
-    private void GetArticle(String link)
+    private void GetContent(String link)
     {
         try
         {
             Document doc = Jsoup.connect(link).get();
-            Elements articles = doc.select(ARTICLE_CONDITION);
-            String[] segments = articles.get(0).text().split(" ");
+            Elements content = doc.select(ARTICLE_CONDITION);
+            String[] segments = content.get(0).text().split(" ");
             StringBuilder builder = new StringBuilder();
 
             for (String segment : segments)
@@ -136,12 +136,12 @@ public class PIXNETCrawler
         }
         catch (IOException exception)
         {
-            System.out.println(exception.getMessage() + " in GetArticle(), current list size: " + Integer.toString(_commentList.size()));
+            System.out.println(exception.getMessage() + " in GetContent(), current list size: " + Integer.toString(_commentList.size()));
             _ioExceptionTimes++;
         }
         catch (IndexOutOfBoundsException exception)
         {
-            System.out.println(exception.getMessage() + " in GetArticle(), current list size: " + Integer.toString(_commentList.size()));
+            System.out.println(exception.getMessage() + " in GetContent(), current list size: " + Integer.toString(_commentList.size()));
             _currentComment.SetContent("none");
             _indexOutOfBoundsExceptionTimes++;
         }
