@@ -29,7 +29,7 @@ result.txt
 
 # eclipse
 *.classpath
-.settings/
+.settings/org.eclipse.core.resources.prefs
 
 populate_shops.sql
 populate_comments.sql
