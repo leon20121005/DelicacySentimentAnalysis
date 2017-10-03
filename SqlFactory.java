@@ -147,7 +147,7 @@ public class SqlFactory
         instruction += ("SELECT * FROM (SELECT '" + EscapeSequence(comment.GetShopName()) + "'");
         instruction += (", " + Double.toString(comment.GetEvaluation()));
         instruction += (", '" + comment.GetShopAddress() + "'");
-        instruction += (", " + Double.toString(comment.GetLatitude()) + ", " + Double.toString(comment.GetLongitude()));
+        instruction += (", " + Double.toString(comment.GetLatitude()) + " AS lat, " + Double.toString(comment.GetLongitude()) + " AS lng");
         instruction += ") AS temp\n";
         instruction += "WHERE NOT EXISTS (SELECT name FROM shops WHERE name = '" + EscapeSequence(comment.GetShopName()) + "')\n";
         instruction += "LIMIT 1;";
@@ -159,26 +159,31 @@ public class SqlFactory
     {
         String instruction;
         instruction = "INSERT INTO comments (title, url, address, evaluation, shop_id)\n";
-        instruction += ("SELECT '" + EscapeSequence(comment.GetShopName()) + "'");
+        instruction += ("SELECT '" + EscapeSequence(comment.GetTitle()) + "'");
         instruction += (", '" + comment.GetShopLink() + "'");
         instruction += (", '" + comment.GetShopAddress() + "'");
         instruction += (", " + Double.toString(10) + ", shops.id\n");
         instruction += "FROM shops\n";
-        instruction += ("WHERE name = '" + EscapeSequence(comment.GetShopName()) + "'\n");
+        instruction += ("WHERE name = '" + EscapeSequence(comment.GetTitle()) + "'\n");
         instruction += ("AND NOT EXISTS (SELECT url FROM comments WHERE url = '" + comment.GetShopLink() + "')\n");
         instruction += "LIMIT 1;";
 
         return instruction;
     }
 
+    //將原始字串內部的單引號改成轉義序列
     private String EscapeSequence(String string)
     {
+        if (string.contains("\\\'"))
+        {
+            return string;
+        }
         return string.replace("'", "\\\'");
     }
 }
 
 // INSERT INTO shops (name, evaluation, address, latitude, longitude)
-// SELECT * FROM (SELECT '@name', 10, '@address', @latitude, @longitude) AS temp
+// SELECT * FROM (SELECT '@name', 10, '@address', @latitude AS lat, @longitude AS lng) AS temp
 // WHERE NOT EXISTS (SELECT name FROM shops WHERE name = '@name')
 // LIMIT 1;
 

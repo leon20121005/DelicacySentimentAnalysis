@@ -116,13 +116,7 @@ public class PIXNETDelicacyExplorer
                     
                     if (tuple.getString("site_category").equals("美味食記"))
                     {
-                        Comment comment = new Comment();
-                        comment.SetShopName(tuple.getString("title"));
-                        comment.SetShopLink(tuple.getString("link").replace("\\", "")); //刪除JSON在編碼網頁URL的"/"時加入的"\"
-                        comment.SetShopAddress(tuple.getString("address"));
-                        comment.SetLatitude(tuple.getJSONObject("location").getDouble("latitude"));
-                        comment.SetLongitude(tuple.getJSONObject("location").getDouble("longitude"));
-                        commentList.add(comment);
+                        commentList.add(ParseCommentData(tuple));
                     }
                 }
             }
@@ -136,6 +130,57 @@ public class PIXNETDelicacyExplorer
             exception.printStackTrace();
         }
         return commentList;
+    }
+
+    private Comment ParseCommentData(JSONObject tuple)
+    {
+        Comment comment = new Comment();
+        try
+        {
+            comment.SetTitle(RemoveEmote(tuple.getString("title")));
+            comment.SetShopName(ParseShopName(tuple.getString("title")));
+            comment.SetShopLink(tuple.getString("link").replace("\\", "")); //刪除JSON在編碼網頁URL的"/"時加入的"\"
+            comment.SetShopAddress(tuple.getString("address"));
+            comment.SetLatitude(tuple.getJSONObject("location").getDouble("latitude"));
+            comment.SetLongitude(tuple.getJSONObject("location").getDouble("longitude"));
+        }
+        catch (JSONException exception)
+        {
+            exception.printStackTrace();
+        }
+        return comment;
+    }
+
+    //從美味食記的文章標題解析出店家名稱(過濾雜訊)
+    private String ParseShopName(String title)
+    {
+        if (title.contains("【台北】"))
+        {
+            title = title.replace("【台北】", "");
+        }
+        if (title.contains("【桃園】"))
+        {
+            title = title.replace("【桃園】", "");
+        }
+        if (title.contains("【宜蘭】"))
+        {
+            title = title.replace("【宜蘭】", "");            
+        }
+        if (title.contains("【台南】"))
+        {
+            title = title.replace("【台南】", "");            
+        }
+        if (title.contains("【高雄】"))
+        {
+            title = title.replace("【高雄】", "");
+        }
+        return RemoveEmote(title);
+    }
+
+    private String RemoveEmote(String string)
+    {
+        // string = string.replace("\uD83D\uDC4D", "");
+        return string;
     }
 
     //根據文章網頁URL解析出美食評論內容並存入該comment

@@ -14,7 +14,7 @@ public class main
         // pixnet.GetContent();
         // pixnet.SaveResult();
 
-/*         long startTime = System.nanoTime();
+        long startTime = System.nanoTime();
 
         List<Comment> commentList = CrawlDelicacyComment();
         ComputeEvaluation(commentList);
@@ -26,7 +26,7 @@ public class main
         long duration = (endTime - startTime);
         System.out.println("Process time (sec): ");
         System.out.println(duration / 1000000000);
- */
+
         // Scanner scanner = new Scanner(System.in);
         // System.out.println("Enter the CKIP Account ID:");
         // String id = scanner.nextLine();
@@ -57,11 +57,11 @@ public class main
         // System.out.println("我是分數");
         // System.out.println(_score);
 
-        ActionAnalysis.Run();
-        System.out.println("跑好了");
+        // ActionAnalysis.Run();
+        // System.out.println("跑好了");
     }
 
-    /* private static List<Comment> CrawlDelicacyComment()
+    private static List<Comment> CrawlDelicacyComment()
     {
         PIXNETDelicacyExplorer explorer = new PIXNETDelicacyExplorer();
         List<String> bloggerList = explorer.GetDelicacyBlogger();
@@ -85,5 +85,5 @@ public class main
             // explorer.ParseCommentContent(comment, comment.GetShopLink());
             comment.SetEvaluation(10.0);
         }
-    } */
+    }
 }

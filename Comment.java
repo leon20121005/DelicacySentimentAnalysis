@@ -1,5 +1,6 @@
 public class Comment
 {
+    private String _title;
     private String _shopName;
     private String _shopLink;
     private String _shopAddress;
@@ -15,6 +16,7 @@ public class Comment
     //Copy constructor
     public Comment(Comment comment)
     {
+        _title = comment.GetTitle();
         _shopName = comment.GetShopName();
         _shopLink = comment.GetShopLink();
         _shopAddress = comment.GetShopAddress();
@@ -22,6 +24,11 @@ public class Comment
         _longitude = comment.GetLongitude();
         _content = comment.GetContent();
         _evaluation = comment.GetEvaluation();
+    }
+
+    public String GetTitle()
+    {
+        return _title;
     }
 
     public String GetShopName()
@@ -57,6 +64,11 @@ public class Comment
     public double GetEvaluation()
     {
         return _evaluation;
+    }
+
+    public void SetTitle(String title)
+    {
+        _title = title;
     }
 
     public void SetShopName(String shopName)
