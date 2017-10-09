@@ -8,6 +8,7 @@ public class Comment
     private double _longitude;
     private String _content;
     private double _evaluation;
+    private String _thumbLink;
 
     public Comment()
     {
@@ -24,6 +25,7 @@ public class Comment
         _longitude = comment.GetLongitude();
         _content = comment.GetContent();
         _evaluation = comment.GetEvaluation();
+        _thumbLink = comment.GetThumbLink();
     }
 
     public String GetTitle()
@@ -66,6 +68,11 @@ public class Comment
         return _evaluation;
     }
 
+    public String GetThumbLink()
+    {
+        return _thumbLink;
+    }
+
     public void SetTitle(String title)
     {
         _title = title;
@@ -104,5 +111,10 @@ public class Comment
     public void SetEvaluation(double evaluation)
     {
         _evaluation = evaluation;
+    }
+
+    public void SetThumbLink(String thumbLink)
+    {
+        _thumbLink = thumbLink;
     }
 }

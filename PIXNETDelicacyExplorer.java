@@ -143,6 +143,7 @@ public class PIXNETDelicacyExplorer
             comment.SetShopAddress(tuple.getString("address"));
             comment.SetLatitude(tuple.getJSONObject("location").getDouble("latitude"));
             comment.SetLongitude(tuple.getJSONObject("location").getDouble("longitude"));
+            comment.SetThumbLink(tuple.getString("thumb").replace("\\", "").replace("&width=90&height=90", "&width=80&height=80"));
         }
         catch (JSONException exception)
         {
@@ -154,25 +155,20 @@ public class PIXNETDelicacyExplorer
     //從美味食記的文章標題解析出店家名稱(過濾雜訊)
     private String ParseShopName(String title)
     {
-        if (title.contains("【台北】"))
+        if (title.contains("【") && title.contains("】"))
         {
-            title = title.replace("【台北】", "");
-        }
-        if (title.contains("【桃園】"))
-        {
-            title = title.replace("【桃園】", "");
-        }
-        if (title.contains("【宜蘭】"))
-        {
-            title = title.replace("【宜蘭】", "");            
-        }
-        if (title.contains("【台南】"))
-        {
-            title = title.replace("【台南】", "");            
-        }
-        if (title.contains("【高雄】"))
-        {
-            title = title.replace("【高雄】", "");
+            String segment = title.substring(title.indexOf("【"), title.indexOf("】") + 1);
+            String keywordInSegment = title.substring(title.indexOf("【") + 1, title.indexOf("】"));
+            String[] keywords = {"台北", "桃園", "宜蘭", "台南", "高雄", "屏東", "美食", "食記"};
+
+            for (String keyword : keywords)
+            {
+                if (keywordInSegment.contains(keyword))
+                {
+                    title = title.replace(segment, "");
+                    break;
+                }
+            }
         }
         return RemoveEmote(title);
     }

@@ -26,14 +26,17 @@ public class SqlFactory
     {
         StringBuilder shopsBuilder = new StringBuilder();
         StringBuilder commentsBuilder = new StringBuilder();
+        StringBuilder thumbnailsBuilder = new StringBuilder();
 
         for (Comment comment : commentList)
         {
             shopsBuilder.append(GenerateInsertShopSql(comment)).append("\n");
             commentsBuilder.append(GenerateInsertCommentSql(comment)).append("\n");
+            thumbnailsBuilder.append(GenerateInsertThumbSql(comment)).append("\n");
         }
         shopsBuilder.deleteCharAt(shopsBuilder.length() - 1);
         commentsBuilder.deleteCharAt(commentsBuilder.length() - 1);
+        thumbnailsBuilder.deleteCharAt(thumbnailsBuilder.length() - 1);
 
         try
         {
@@ -44,6 +47,11 @@ public class SqlFactory
 
             writer = new PrintWriter("populate_comments.sql", "UTF-8");
             writer.println(commentsBuilder.toString());
+            writer.flush();
+            writer.close();
+
+            writer = new PrintWriter("populate_thumbnails.sql", "UTF-8");
+            writer.println(thumbnailsBuilder.toString());
             writer.flush();
             writer.close();
 
@@ -164,8 +172,21 @@ public class SqlFactory
         instruction += (", '" + comment.GetShopAddress() + "'");
         instruction += (", " + Double.toString(10) + ", shops.id\n");
         instruction += "FROM shops\n";
-        instruction += ("WHERE name = '" + EscapeSequence(comment.GetTitle()) + "'\n");
+        instruction += ("WHERE name = '" + EscapeSequence(comment.GetShopName()) + "'\n");
         instruction += ("AND NOT EXISTS (SELECT url FROM comments WHERE url = '" + comment.GetShopLink() + "')\n");
+        instruction += "LIMIT 1;";
+
+        return instruction;
+    }
+
+    private String GenerateInsertThumbSql(Comment comment)
+    {
+        String instruction;
+        instruction = "INSERT INTO thumbnails (url, shop_id)\n";
+        instruction += ("SELECT '" + comment.GetThumbLink() + "', shops.id\n");
+        instruction += ("FROM shops\n");
+        instruction += ("WHERE name = '" + EscapeSequence(comment.GetShopName()) + "'\n");
+        instruction += ("AND NOT EXISTS (SELECT url FROM thumbnails WHERE url = '" + comment.GetThumbLink() + "')\n");
         instruction += "LIMIT 1;";
 
         return instruction;
@@ -190,6 +211,13 @@ public class SqlFactory
 // INSERT INTO comments (title, url, address, evaluation, shop_id)
 // SELECT '@title', '@url', '@address', 10, shops.id
 // FROM shops
-// WHERE name = '@title'
+// WHERE name = '@name'
 // AND NOT EXISTS (SELECT url FROM comments WHERE url = '@url')
+// LIMIT 1;
+
+// INSERT INTO thumbnails (url, shop_id)
+// SELECT '@thumb', shops.id
+// FROM shops
+// WHERE name = '@name'
+// AND NOT EXISTS (SELECT url FROM thumbnails WHERE url = '@thumb')
 // LIMIT 1;
