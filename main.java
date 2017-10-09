@@ -19,8 +19,11 @@ public class main
         List<Comment> commentList = CrawlDelicacyComment();
         ComputeEvaluation(commentList);
 
-        SqlFactory factory = new SqlFactory();
-        factory.GenerateSqlFile(commentList);
+        // SqlFactory factory = new SqlFactory();
+        // factory.GenerateSqlFile(commentList);
+
+        TrainingDataFactory trainingFactory = new TrainingDataFactory();
+        trainingFactory.GenerateTrainingData(commentList);
 
         long endTime = System.nanoTime();
         long duration = (endTime - startTime);
@@ -80,11 +83,17 @@ public class main
     private static void ComputeEvaluation(List<Comment> commentList)
     {
         PIXNETDelicacyExplorer explorer = new PIXNETDelicacyExplorer();
+        int counter = 0;
 
         for (Comment comment : commentList)
         {
-            // explorer.ParseCommentContent(comment, comment.GetShopLink());
+            explorer.ParseCommentContent(comment, comment.GetShopLink());
             comment.SetEvaluation(10.0);
+
+            if (counter++ > 300)
+            {
+                break;
+            }
         }
     }
 }

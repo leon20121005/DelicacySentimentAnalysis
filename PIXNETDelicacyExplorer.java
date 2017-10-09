@@ -191,7 +191,10 @@ public class PIXNETDelicacyExplorer
 
             for (String segment : segments)
             {
-                builder.append(segment).append("\n");
+                if (segment != "\n" && segment != "")
+                {
+                    builder.append(segment).append("\n");
+                }
             }
             builder.deleteCharAt(builder.length() - 1);
             comment.SetContent(builder.toString());
