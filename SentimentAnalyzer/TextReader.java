@@ -25,7 +25,7 @@ public class TextReader
                 //read file and replace punctuation marks, letters and number with space
                 //split one sentence into string by space, then put into arraylist
                 tempString = bufferReader.readLine();
-                String rawString = tempString.replaceAll("//pP", "").replaceAll("[a-zA-Z0-9]", " ");
+                String rawString = tempString.replaceAll("\\pP", "").replaceAll("[a-zA-Z0-9]", " ");
                 String[] splitData = rawString.split(" ");
                 ArrayList<String> opinion = new ArrayList<String>();
                 for (String element : splitData)
@@ -43,10 +43,37 @@ public class TextReader
             e.printStackTrace();
         }
     }
+    
+    public void ReadComment(String comment) throws Exception
+    {
+        try
+        {
+        	String[] splitComment = comment.split("\n");
+            for (String element : splitComment)
+            {
+            	element = element.replaceAll("[\\pP]", " ").replaceAll("[a-zA-Z0-9]", " ");
+            	String[] splitData = element.split(" ");
+                ArrayList<String> opinion = new ArrayList<String>();
+                for (String data : splitData)
+                {
+                	opinion.add(data);
+                }
+                opinionList.add(opinion);
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("error");
+            //exception stack trace, can get program run trail
+            e.printStackTrace();
+        }
+    }
+
 
     //get opinionList size
     public int GetSize()
     {
+    	System.out.println("我的size" + opinionList.size());
         return opinionList.size();
     }
 

@@ -21,9 +21,11 @@ public class SentimentAnalyzer
     private TextReader txtReader;
     private String filenameOpinion = new String("opinion.txt");
     private String filenameResult = new String("result.txt");
+    private String inputComment = new String("");
     // number of positive answers and the total number of opinions
     private int positive;
     private int total_opinions;
+    private double score = 0;
     // frequency recorder
     private FrequencyRecorder f_rec;
     // OutputWriter
@@ -88,7 +90,7 @@ public class SentimentAnalyzer
                         }
                     }
                     // check if the shifter exists
-                    if (sentence.contains("?�") || sentence.contains("?"))
+                    if (sentence.contains("不") || sentence.contains("沒"))
                     {
                         rate *= -1;
                     }
@@ -108,6 +110,8 @@ public class SentimentAnalyzer
                     output += (after_seg + " "); // print detail
                     for (String segSentence : after_seg.split(" "))
                     {
+                    	//add score
+                    	score = score + total_rate;
                         if (segSentence.length() <= 1)
                         {
                             continue;
@@ -150,13 +154,22 @@ public class SentimentAnalyzer
     }
 
     // set specific I/O files
-    public SentimentAnalyzer(String inputFile, String outputFile)
+   /*public SentimentAnalyzer(String inputFile, String outputFile)
     {
         seg = SegmentChinese.GetInstance();
         KeywordFinder.GetInstance();
         dict = SentimentalDictionary.GetInstance();
         filenameOpinion = inputFile;
         filenameResult = outputFile;
+    }*/
+    
+    public SentimentAnalyzer(String comment, String fileOutName)
+    {
+        seg = SegmentChinese.GetInstance();
+        //KeywordFinder.GetInstance();
+        dict = SentimentalDictionary.GetInstance();
+        inputComment = comment;
+        filenameResult = fileOutName;
     }
 
     // set specific dictionary files and remove the old instance to make the new one available
@@ -251,5 +264,46 @@ public class SentimentAnalyzer
         {
             e.printStackTrace();
         }
+    }
+    
+    public double WorkCommentAnalysis()
+    {
+        try
+        {
+            long beginTime = System.currentTimeMillis();
+            // reading
+            txtReader = new TextReader();
+            txtReader.ReadComment(inputComment);
+            // create recorder
+            f_rec = new FrequencyRecorder();
+            fw = new FileWriter(filenameResult);
+            // start analyzing
+            analyze();
+            // output message
+            System.out.println("Completed!");
+            System.out.println("Time for Analyzing: " + ((System.currentTimeMillis() - beginTime) / 1000.0) + " second(s)");
+            System.out.println("Number of Words in Dictionary: " + dict.GetSize());
+            System.out.println(String.format(Locale.getDefault(), "Positive/Negative: %d/%d", positive, total_opinions - positive));
+            System.out.println("Frequent Words(>=500): " + f_rec.GetFrequentWordsString(500));
+            fw.write("Top Ten Keywords from Positive Opinions: ");
+            for (String s : f_rec.GetTopTenPositiveWords())
+            {
+                fw.write(String.format(Locale.getDefault(), "%s(%d) ", s, f_rec.GetPositiveFrequency(s)));
+            }
+            fw.write("\nTop Ten Keywords from Negative Opinions: ");
+            for (String s : f_rec.GetTopTenNegativeWords())
+            {
+                fw.write(String.format(Locale.getDefault(), "%s(%d) ", s, f_rec.GetNegativeFrequency(s)));
+            }
+            fw.write("\n");
+            fw.write("此篇評論分數為" + (score/total_opinions + 10) / 2 + "\n");
+            fw.flush();
+            fw.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return(score/total_opinions);
     }
 }

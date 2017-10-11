@@ -14,8 +14,8 @@ public class ActionAnalysis
     private static String fileNegative = new String("negative.txt");
     private static String fileAdverb = new String("adverb.txt");
     private static String fileOpinion = new String("opinion.txt");
-    private static String fileTrain = new String("training.txt");
-    private static String fileAnswer = new String("answer.txt");
+    private static String fileTrain = new String("delicacy_training_data.txt");
+    private static String fileAnswer = new String("delicacy_training_answer.txt");
     private static String valueSO = new String("3");
     private static String valueThread = new String("4");
 
@@ -25,8 +25,8 @@ public class ActionAnalysis
         fileNegative = "negative.txt";
         fileAdverb = "adverb.txt";
         fileOpinion = "opinion.txt";
-        fileTrain = "training.txt";
-        fileAnswer = "answer.txt";
+        fileTrain = "delicacy_training_data.txt";
+        fileAnswer = "delicacy_training_answer.txt";
         valueSO = "3";
         valueThread = "4";
     }
@@ -57,5 +57,16 @@ public class ActionAnalysis
         //     ioe.printStackTrace();
         // }
         return;
+    }
+    
+    public static double Analysis(String comment, String outFileName)
+    {
+    	double score = 0;
+        SentimentAnalyzer.SetDictionary(filePositive, fileNegative, fileAdverb);
+        SentimentAnalyzer.SetSORate(Double.parseDouble(valueSO));
+        SentimentAnalyzer.SetNumberOfThread(Integer.parseInt(valueThread));
+        SentimentAnalyzer sa = new SentimentAnalyzer(comment, outFileName);
+        score = sa.WorkCommentAnalysis();
+        return(score);
     }
 }

@@ -6,6 +6,7 @@ public class main
 {
     public static void main(String[] args) throws Exception
     {
+        //ActionAnalysis.Run();
         // IPeenCrawler crawler = new IPeenCrawler();
         // System.out.println(crawler.Search("炸雞"));
         // crawler.SaveResult();
@@ -14,21 +15,22 @@ public class main
         // crawler.GetArticles();
         // crawler.SaveResult();
 
-        long startTime = System.nanoTime();
+        //long startTime = System.nanoTime();
 
         List<Comment> commentList = CrawlDelicacyComment();
         ComputeEvaluation(commentList);
 
-        // SqlFactory factory = new SqlFactory();
-        // factory.GenerateSqlFile(commentList);
+        SqlFactory factory = new SqlFactory();
+        factory.GenerateSqlFile(commentList);
+        System.out.println("跑好了");
 
-        TrainingDataFactory trainingFactory = new TrainingDataFactory();
-        trainingFactory.GenerateTrainingData(commentList);
+        //TrainingDataFactory trainingFactory = new TrainingDataFactory();
+        //trainingFactory.GenerateTrainingData(commentList);
 
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime);
-        System.out.println("Process time (sec): ");
-        System.out.println(duration / 1000000000);
+        //long endTime = System.nanoTime();
+        //long duration = (endTime - startTime);
+        //System.out.println("Process time (sec): ");
+        //System.out.println(duration / 1000000000);
 
         // Scanner scanner = new Scanner(System.in);
         // System.out.println("Enter the CKIP Account ID:");
@@ -59,9 +61,6 @@ public class main
         // int _score = lexiconBasedMethod.CalculateScore(termList);
         // System.out.println("我是分數");
         // System.out.println(_score);
-
-        // ActionAnalysis.Run();
-        // System.out.println("跑好了");
     }
 
     private static List<Comment> CrawlDelicacyComment()
@@ -75,6 +74,7 @@ public class main
         {
             String jsonData = explorer.SendRequest(blogger);
             commentList.addAll(explorer.ParseDelicacyComment(jsonData));
+            break;
         }
         return commentList;
     }
@@ -84,13 +84,18 @@ public class main
     {
         PIXNETDelicacyExplorer explorer = new PIXNETDelicacyExplorer();
         int counter = 0;
+        double score = 0;
 
         for (Comment comment : commentList)
         {
             explorer.ParseCommentContent(comment, comment.GetShopLink());
-            comment.SetEvaluation(10.0);
+            String outFilename = ".\\result\\out" + Integer.toString(counter) + ".txt";
+            score = ActionAnalysis.Analysis(comment.GetContent(), outFilename);
+            score = (score + 10) / 2;
+            System.out.println("這篇分數是" + score);
+            comment.SetEvaluation(score);
 
-            if (counter++ > 300)
+            if (counter++ > 100)
             {
                 break;
             }
