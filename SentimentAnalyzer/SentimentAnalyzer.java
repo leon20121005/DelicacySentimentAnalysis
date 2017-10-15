@@ -103,7 +103,7 @@ public class SentimentAnalyzer
                         positive += 1;
                     }
                 }
-                output = String.format(Locale.getDefault(), "NO.%d: rate = ", total_rate) + (total_rate >= 0 ? " (Positive)\n" : " (Negative)\n");
+                output = String.format(Locale.getDefault(), "Score： %d  rate = ", total_rate) + (total_rate >= 0 ? " (Positive)\n" : " (Negative)\n");
                 for (String sentence : opinion)
                 {
                     String after_seg = seg.SegWords(sentence, " ");

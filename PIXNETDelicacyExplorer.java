@@ -158,17 +158,23 @@ public class PIXNETDelicacyExplorer
         if (title.contains("【") && title.contains("】"))
         {
             String segment = title.substring(title.indexOf("【"), title.indexOf("】") + 1);
-            String keywordInSegment = title.substring(title.indexOf("【") + 1, title.indexOf("】"));
-            String[] keywords = {"台北", "桃園", "宜蘭", "台南", "高雄", "屏東", "美食", "食記"};
+            // String keywordInSegment = title.substring(title.indexOf("【") + 1, title.indexOf("】"));
+            // String[] keywords = {"台北", "桃園", "宜蘭", "台南", "高雄", "屏東", "美食", "食記"};
 
-            for (String keyword : keywords)
-            {
-                if (keywordInSegment.contains(keyword))
-                {
-                    title = title.replace(segment, "");
-                    break;
-                }
-            }
+            // for (String keyword : keywords)
+            // {
+            //     if (keywordInSegment.contains(keyword))
+            //     {
+            //         title = title.replace(segment, "");
+            //         break;
+            //     }
+            // }
+            title = title.replace(segment, "");
+        }
+        else if (title.contains("[") && title.contains("]"))
+        {
+            String segment = title.substring(title.indexOf("["), title.indexOf("]") + 1);
+            title = title.replace(segment, "");
         }
         return RemoveEmote(title);
     }

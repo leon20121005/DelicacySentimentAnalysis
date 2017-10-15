@@ -153,7 +153,7 @@ public class SqlFactory
         String instruction;
         instruction = "INSERT INTO shops (name, evaluation, address, latitude, longitude)\n";
         instruction += ("SELECT * FROM (SELECT '" + EscapeSequence(comment.GetShopName()) + "'");
-        instruction += (", " + Double.toString(comment.GetEvaluation()));
+        instruction += (", " + Double.toString(10));
         instruction += (", '" + comment.GetShopAddress() + "'");
         instruction += (", " + Double.toString(comment.GetLatitude()) + " AS lat, " + Double.toString(comment.GetLongitude()) + " AS lng");
         instruction += ") AS temp\n";
@@ -170,7 +170,7 @@ public class SqlFactory
         instruction += ("SELECT '" + EscapeSequence(comment.GetTitle()) + "'");
         instruction += (", '" + comment.GetShopLink() + "'");
         instruction += (", '" + comment.GetShopAddress() + "'");
-        instruction += (", " + Double.toString(10) + ", shops.id\n");
+        instruction += (", " + Double.toString(comment.GetEvaluation()) + ", shops.id\n");
         instruction += "FROM shops\n";
         instruction += ("WHERE name = '" + EscapeSequence(comment.GetShopName()) + "'\n");
         instruction += ("AND NOT EXISTS (SELECT url FROM comments WHERE url = '" + comment.GetShopLink() + "')\n");

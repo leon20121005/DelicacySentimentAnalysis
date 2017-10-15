@@ -15,7 +15,7 @@ public class main
         // crawler.GetArticles();
         // crawler.SaveResult();
 
-        //long startTime = System.nanoTime();
+        long startTime = System.nanoTime();
 
         List<Comment> commentList = CrawlDelicacyComment();
         ComputeEvaluation(commentList);
@@ -27,10 +27,10 @@ public class main
         //TrainingDataFactory trainingFactory = new TrainingDataFactory();
         //trainingFactory.GenerateTrainingData(commentList);
 
-        //long endTime = System.nanoTime();
-        //long duration = (endTime - startTime);
-        //System.out.println("Process time (sec): ");
-        //System.out.println(duration / 1000000000);
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime);
+        System.out.println("Process time (sec): ");
+        System.out.println(duration / 1000000000);
 
         // Scanner scanner = new Scanner(System.in);
         // System.out.println("Enter the CKIP Account ID:");
@@ -93,7 +93,7 @@ public class main
             score = ActionAnalysis.Analysis(comment.GetContent(), outFilename);
             score = (score + 10) / 2;
             System.out.println("這篇分數是" + score);
-            comment.SetEvaluation(score);
+            comment.SetEvaluation(10);
 
             if (counter++ > 100)
             {
