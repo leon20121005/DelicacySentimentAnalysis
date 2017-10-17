@@ -74,7 +74,7 @@ public class main
         {
             String jsonData = explorer.SendRequest(blogger);
             commentList.addAll(explorer.ParseDelicacyComment(jsonData));
-            break;
+            // break;
         }
         return commentList;
     }
@@ -88,17 +88,17 @@ public class main
 
         for (Comment comment : commentList)
         {
-            explorer.ParseCommentContent(comment, comment.GetShopLink());
-            String outFilename = ".\\result\\out" + Integer.toString(counter) + ".txt";
-            score = ActionAnalysis.Analysis(comment.GetContent(), outFilename);
-            score = (score + 10) / 2;
+            // explorer.ParseCommentContent(comment, comment.GetShopLink());
+            // String outFilename = ".\\result\\out" + Integer.toString(counter) + ".txt";
+            // score = ActionAnalysis.Analysis(comment.GetContent(), outFilename);
+            // score = (score + 10) / 2;
             System.out.println("這篇分數是" + score);
-            comment.SetEvaluation(score);
+            comment.SetEvaluation(10);
 
-            if (counter++ > 100)
-            {
-                break;
-            }
+            // if (counter++ > 100)
+            // {
+            //     break;
+            // }
         }
     }
 }

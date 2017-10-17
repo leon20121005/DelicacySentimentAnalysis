@@ -1,10 +1,14 @@
-# 2017-HackNTU-Project
+# DelicacySentimentAnalysis
 
 Prerequisites:
 
 1. `jsoup-1.10.3.jar` in current file.
 
 2. `dom4j-2.0.1.jar` in current file.
+
+3. `jieba-analysis.jar` in current file.
+
+4. `org.json.jar` in current file.
 
 If using `cmd.exe` to compile and run:
 

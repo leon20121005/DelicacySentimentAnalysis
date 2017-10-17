@@ -137,7 +137,7 @@ public class PIXNETDelicacyExplorer
         Comment comment = new Comment();
         try
         {
-            comment.SetTitle(RemoveEmote(tuple.getString("title")));
+            comment.SetTitle(RemoveNoise(tuple.getString("title")));
             comment.SetShopName(ParseShopName(tuple.getString("title")));
             comment.SetShopLink(tuple.getString("link").replace("\\", "")); //刪除JSON在編碼網頁URL的"/"時加入的"\"
             comment.SetShopAddress(tuple.getString("address"));
@@ -176,12 +176,13 @@ public class PIXNETDelicacyExplorer
             String segment = title.substring(title.indexOf("["), title.indexOf("]") + 1);
             title = title.replace(segment, "");
         }
-        return RemoveEmote(title);
+        return RemoveNoise(title);
     }
 
-    private String RemoveEmote(String string)
+    private String RemoveNoise(String string)
     {
         // string = string.replace("\uD83D\uDC4D", "");
+        string = string.replace("\n", "").trim();
         return string;
     }
 
