@@ -43,20 +43,20 @@ public class TextReader
             e.printStackTrace();
         }
     }
-    
+
     public void ReadComment(String comment) throws Exception
     {
         try
         {
-        	String[] splitComment = comment.split("\n");
+            String[] splitComment = comment.split("\n");
             for (String element : splitComment)
             {
-            	element = element.replaceAll("[\\pP]", " ").replaceAll("[a-zA-Z0-9]", " ");
-            	String[] splitData = element.split(" ");
+                element = element.replaceAll("[\\pP]", " ").replaceAll("[a-zA-Z0-9]", " ");
+                String[] splitData = element.split(" ");
                 ArrayList<String> opinion = new ArrayList<String>();
                 for (String data : splitData)
                 {
-                	opinion.add(data);
+                    opinion.add(data);
                 }
                 opinionList.add(opinion);
             }
@@ -69,11 +69,10 @@ public class TextReader
         }
     }
 
-
     //get opinionList size
     public int GetSize()
     {
-    	System.out.println("我的size" + opinionList.size());
+        System.out.println("我的size" + opinionList.size());
         return opinionList.size();
     }
 

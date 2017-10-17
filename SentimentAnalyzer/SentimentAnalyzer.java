@@ -103,14 +103,14 @@ public class SentimentAnalyzer
                         positive += 1;
                     }
                 }
-                output = String.format(Locale.getDefault(), "Score： %d  rate = ", total_rate) + (total_rate >= 0 ? " (Positive)\n" : " (Negative)\n");
+                output = String.format(Locale.getDefault(), "Score: %d, rate = ", total_rate) + (total_rate >= 0 ? " (Positive)\n" : " (Negative)\n");
                 for (String sentence : opinion)
                 {
                     String after_seg = seg.SegWords(sentence, " ");
                     output += (after_seg + " "); // print detail
                     for (String segSentence : after_seg.split(" "))
                     {
-                    	//add score
+                    	// add score
                     	score = score + total_rate;
                         if (segSentence.length() <= 1)
                         {
@@ -154,19 +154,19 @@ public class SentimentAnalyzer
     }
 
     // set specific I/O files
-   /*public SentimentAnalyzer(String inputFile, String outputFile)
-    {
-        seg = SegmentChinese.GetInstance();
-        KeywordFinder.GetInstance();
-        dict = SentimentalDictionary.GetInstance();
-        filenameOpinion = inputFile;
-        filenameResult = outputFile;
-    }*/
+    // public SentimentAnalyzer(String inputFile, String outputFile)
+    // {
+    //     seg = SegmentChinese.GetInstance();
+    //     KeywordFinder.GetInstance();
+    //     dict = SentimentalDictionary.GetInstance();
+    //     filenameOpinion = inputFile;
+    //     filenameResult = outputFile;
+    // }
     
     public SentimentAnalyzer(String comment, String fileOutName)
     {
         seg = SegmentChinese.GetInstance();
-        //KeywordFinder.GetInstance();
+        // KeywordFinder.GetInstance();
         dict = SentimentalDictionary.GetInstance();
         inputComment = comment;
         filenameResult = fileOutName;
@@ -214,7 +214,7 @@ public class SentimentAnalyzer
         System.out.println("Now Analyzing...");
         ExecutorService executor = Executors.newFixedThreadPool(NumberOfThread);
         ArrayList<Future<String>> resList = new ArrayList<Future<String>>();
-        for (int i = 0 ; i < total_opinions; i++)
+        for (int i = 0; i < total_opinions; i++)
         {
             Callable<String> task = new SACallable(i);
             Future<String> result = executor.submit(task);
@@ -296,7 +296,7 @@ public class SentimentAnalyzer
                 fw.write(String.format(Locale.getDefault(), "%s(%d) ", s, f_rec.GetNegativeFrequency(s)));
             }
             fw.write("\n");
-            fw.write("此篇評論分數為" + (score/total_opinions + 10) / 2 + "\n");
+            fw.write("此篇評論分數為" + (score / total_opinions + 10) / 2 + "\n");
             fw.flush();
             fw.close();
         }
@@ -304,6 +304,6 @@ public class SentimentAnalyzer
         {
             e.printStackTrace();
         }
-        return(score/total_opinions);
+        return (score / total_opinions);
     }
 }

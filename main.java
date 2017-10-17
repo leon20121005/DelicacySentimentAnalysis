@@ -6,7 +6,7 @@ public class main
 {
     public static void main(String[] args) throws Exception
     {
-        //ActionAnalysis.Run();
+        // ActionAnalysis.Run();
         // IPeenCrawler crawler = new IPeenCrawler();
         // System.out.println(crawler.Search("炸雞"));
         // crawler.SaveResult();
@@ -24,8 +24,8 @@ public class main
         factory.GenerateSqlFile(commentList);
         System.out.println("跑好了");
 
-        //TrainingDataFactory trainingFactory = new TrainingDataFactory();
-        //trainingFactory.GenerateTrainingData(commentList);
+        // TrainingDataFactory trainingFactory = new TrainingDataFactory();
+        // trainingFactory.GenerateTrainingData(commentList);
 
         long endTime = System.nanoTime();
         long duration = (endTime - startTime);
@@ -83,8 +83,8 @@ public class main
     private static void ComputeEvaluation(List<Comment> commentList)
     {
         PIXNETDelicacyExplorer explorer = new PIXNETDelicacyExplorer();
-        int counter = 0;
         double score = 0;
+        int counter = 0;
 
         for (Comment comment : commentList)
         {
@@ -93,7 +93,7 @@ public class main
             score = ActionAnalysis.Analysis(comment.GetContent(), outFilename);
             score = (score + 10) / 2;
             System.out.println("這篇分數是" + score);
-            comment.SetEvaluation(10);
+            comment.SetEvaluation(score);
 
             if (counter++ > 100)
             {

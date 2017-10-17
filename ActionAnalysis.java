@@ -58,7 +58,7 @@ public class ActionAnalysis
         // }
         return;
     }
-    
+
     public static double Analysis(String comment, String outFileName)
     {
     	double score = 0;
